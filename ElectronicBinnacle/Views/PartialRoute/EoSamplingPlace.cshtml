@@ -1,0 +1,93 @@
+﻿<section class="order-info row size12">
+    <div class="row ">
+        <div class="right">
+            <select class="dropdown-list" data-ng-model="orderInfo.importation" style="width: 250px; margin-top: 1px;color: #555;" data-ng-change="importData()">
+                <option value="0">No Importar Datos</option>
+                <option value="1">Datos del Cliente</option>
+                <option value="2" data-ng-hide="order.ClientData.BillReport">Datos del Cliente a Facturar</option>
+            </select>
+        </div>
+        <div><h2>Datos Particulares del Sitio de Muestreo</h2></div>
+    </div>
+    <div class="row" style="margin-top: 5px !important;">
+        <div class="span12">
+            <label>Planta o Lugar</label>
+            <div class="input-control text" data-role="input-control">
+                <input placeholder="Planta o Lugar de la nueva orden de trabajo" type="text" data-ng-model="order.LocationData.Place">
+                <button type="button" class="btn-clear" tabindex="-1"></button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <label>Calle &amp; N&uacute;mero</label>
+            <div class="input-control text size6" data-role="input-control">
+                <input placeholder="Calle/No." type="text" data-ng-model="order.LocationData.StreetNo">
+                <button type="button" class="btn-clear" tabindex="-1"></button>
+            </div>
+        </div>
+        <div class="span6">
+            <label>Colonia</label>
+            <div class="input-control text size6" data-role="input-control">
+                <input placeholder="Colonia" type="text" data-ng-model="order.LocationData.Colony">
+                <button type="button" class="btn-clear" tabindex="-1"></button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <label>Del./Mpio</label>
+            <div class="input-control text size6" data-role="input-control">
+                <input placeholder="Delegación o Municipio" type="text" data-ng-model="order.LocationData.DelMpio">
+                <button type="button" class="btn-clear" tabindex="-1"></button>
+            </div>
+        </div>
+        <div class="span3">
+            <label>Edo.</label>
+            <div class="input-control text size3" data-role="input-control">
+                <input placeholder="Estado" type="text" data-ng-model="order.LocationData.Edo">
+                <button type="button" class="btn-clear" tabindex="-1"></button>
+            </div>
+        </div>
+        <div class="span3">
+            <label>C.P.</label>
+            <div class="input-control text size3" data-role="input-control">
+                <input placeholder="C.P." type="text" data-ng-model="order.LocationData.CP">
+                <button type="button" class="btn-clear" tabindex="-1"></button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <label>Contacto</label>
+            <div class="input-control text size6" data-role="input-control">
+                <input placeholder="Contacto" type="text" data-ng-model="order.LocationData.Contact">
+                <button type="button" class="btn-clear" tabindex="-1"></button>
+            </div>
+        </div>
+        <div class="span3">
+            <label>Teléfono</label>
+            <div class="input-control text size3" data-role="input-control">
+                <input placeholder="Teléfono del Contacto" type="text" data-ng-model="order.LocationData.Phone">
+                <button type="button" class="btn-clear" tabindex="-1"></button>
+            </div>
+        </div>
+        <div class="span3">
+            <label>Celular</label>
+            <div class="input-control text size3" data-role="input-control">
+                <input placeholder="Celular del Contacto" type="text" data-ng-model="order.LocationData.Cellphone">
+                <button type="button" class="btn-clear" tabindex="-1"></button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span12">
+            <label>Correo</label>
+            <div class="input-control text size12" data-role="input-control">
+                <input placeholder="Correo del Contacto" type="email" data-ng-model="order.LocationData.Email">
+                <button type="button" class="btn-clear" tabindex="-1"></button>
+            </div>
+        </div>
+    </div>
+</section>
+<script>$.Metro.initInputs();</script>

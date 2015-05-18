@@ -1,0 +1,48 @@
+﻿<article id="partial-body">
+    <div id="filter" class="input-control text no-tablet-portrait">
+        <input type="text" data-ng-model="search.Identifier" data-autofocus="" placeholder="Buscar grupo" />
+        <button class="btn-search"></button>
+    </div>
+    <h1>
+        <a href="" data-ng-click="goBack()"><i class="icon-arrow-left-3 fg-darker smaller"></i></a>
+        Detalles del Grupo<small class="on-right no-phone">{{auth.Employee.Role.Name}}</small>
+    </h1>
+    <div class="grid">
+        <section class="order-info row size12">
+            <div class="row" style="padding-bottom: 20px">
+                <span>
+                    <label>Identificador del Grupo de Trabajo : <span style="font-weight: 800">{{package.Identifier}}</span> </label>
+                </span>
+            </div>
+            <div class="row">
+                <h2 style="margin-bottom: 10px;">Parámetros A&ntilde;adidos</h2>
+                <table class="table bordered hovered">
+                    <thead>
+                        <tr>
+                            <th class="text-left">Parámetro</th>
+                            <th>Recipiente</th>
+                            <th>Volumen</th>
+                            <th>Preservador</th>
+                            <th>TMPA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="param in package.Parameters | filter:search">
+                            <td class="text-left">{{param.Identifier}}</td>
+                            <td>{{param.Container}}</td>
+                            <td>{{param.Volume}}</td>
+                            <td>{{param.Preserver}}</td>
+                            <td>{{param.TMPA}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <button id="create-param" class="ribbed-cyan fg-white hover" data-ng-click="edit_package()" data-ng-if="hasPermission([21])">
+                    Editar Grupo
+                </button>
+            </div>
+        </section>
+    </div>
+</article>
+<script>$.Metro.initInputs();</script>

@@ -1,0 +1,73 @@
+﻿<section class="order-info row size12">
+    <div class="row">
+        <div class="span6" style="margin-left: 0; margin-top: 2px;"><h2>Grupos de Trabajo</h2></div>
+    </div>
+    <div class="row table-container">
+        <button id="add-package" class="ribbed-cyan fg-white" style="margin-bottom:10px" data-ng-click="addWorkPackage()">
+            <i class="icon-plus-2"></i>
+            Agregar Muestra
+        </button>
+        <div class="accordion" data-role="accordion" data-closeany="false">
+            <div class="accordion-frame active" data-ng-repeat="pack in selectedWorkPackages">
+                <a href="" class="heading bg-lightOlive fg-white">
+                    Datos de Muestra
+                </a>
+                <div class="content">
+                    <div class="span4">
+                        <label>No. de Muestras</label>
+                        <div class="input-control text size3" data-role="input-control">
+                            <input placeholder="0" type="text" data-ng-model="pack.SamplesNumber">
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <label>Tipo de Muestras</label>
+                        <select class="dropdown-list size3" data-ng-model="pack.Type">
+                            <option value="0">Simple</option>
+                            <option value="1" data-ng-if="order.SamplingData.SamplingKind != 3 && orderInfo.selectedType != 3">Compuesta</option>
+                        </select>
+                    </div>
+                    <div class="span3 animate-show" data-ng-show="pack.Type == 1" data-ng-if="order.SamplingData.SamplingKind != 3 && orderInfo.selectedType != 3">
+                        <label>Per&iacute;odo(Horas)</label>
+                        <div class="input-control text size3" data-role="input-control">
+                            <input placeholder="0" type="text" data-ng-model="pack.Period">
+                        </div>
+                    </div>
+                    <br />
+                    <label class="clear">Par&aacute;metros Utilizados</label>
+                    <table class="table bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-left">Identificador</th>
+                                <th>Tipo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="text-center" data-ng-repeat="param in pack.params">
+                                <td class="text-left">{{param.Identifier}}</td>
+                                <td data-ng-switch data-on="param.Type">
+                                    <span data-ng-switch-when="0">Grupo</span>
+                                    <span data-ng-switch-when="1">Par&aacute;metro</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="right" data-ng-click="removeWorkPackage($index)">
+                        <button class="fg-white ribbed-darkRed">
+                            <i class="icon-cancel-2"></i>
+                            Eliminar
+                        </button>
+                    </div>
+                    <div>
+                        <button class="bg-teal fg-white" data-ng-click="onAddParameter($index)">
+                            <i class="icon-pencil"></i>
+                            Editar Colecci&oacute;n de Par&aacute;metros
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $.Metro.initAll();
+</script>

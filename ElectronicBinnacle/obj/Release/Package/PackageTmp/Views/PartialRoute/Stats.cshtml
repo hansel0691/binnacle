@@ -1,0 +1,39 @@
+﻿<article id="partial-body">
+    <form id="filter" class="input-control text no-tablet-portrait" data-ng-submit="searchObj()">
+        <input type="text" data-ng-model="search.Name" data-autofocus="" placeholder="Buscar Empleado" />
+        <button type="submit" class="btn-search"></button>
+    </form>
+    <h1>
+        <a href="" data-ng-click="goBack()"><i class="icon-arrow-left-3 fg-darker smaller"></i></a>
+        Estadísticas<small class="on-right">{{auth.Employee.Role.Name}}</small>
+    </h1>
+    <div class="grid clear">
+        <div class="row">
+            <table class="table bordered hovered">
+                <thead>
+                    <tr>
+                        <th class="text-center">Nombre(s)</th>
+                        <th class="text-center">Apellido(s)</th>
+@*                        <th class="text-center">Role</th>*@
+@*                        <th class="text-center">Usuario</th>*@
+                        <th class="text-center" style="width: 180px;">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="sub in subordinates | filter:search">
+                        <td>{{sub.Name}}</td>
+                        <td>{{sub.LastName}}</td>
+                        @*                        <td>{{sub.Role.Name}}</td>*@
+                        @*                        <td><span data-ng-if="sub.Role.RoleId == 5">-</span>{{sub.User.Name}}</td>*@
+                        <td>
+                            <a href="#/stats/{{sub.EmployeeId}}">Ver Datos</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</article>
+<script>
+    $.Metro.initAll();
+</script>

@@ -1,0 +1,46 @@
+﻿<section class="order-info row size12" data-ng-controller="SvEvidenceCtrl">
+    <div class="row">
+        <h2>Evidencias del Muestreo</h2>
+    </div>
+    <div id="main-evidence-data" class="row mtop10">
+        <div style="padding: 0 0 30px;">
+            <div class="carousel shadow text-center" style="width: 100%;background-color: #eee;">
+                <div>
+                    <span class="blue" style="font-size: 18px;">{{photo.titulo}}</span>
+                    <button class="success hover" data-ng-click="onRemovePhoto(photo.PhotoId)" style="margin-right: 10px;padding: 5px 20px;position: absolute;right: 0" data-ng-if="photos.length">
+                        Eliminar
+                    </button>
+                    <br >
+                    <img src="data:image/png;base64,{{photo.foto}}" style="height: 400px;" alt="Evidencia" />
+                </div>
+
+                <a class="controls left fg-dark" data-ng-click="goPreviousPhoto()" data-ng-show="photos.length > 1"><i class="icon-arrow-left-3"></i></a>
+                <a class="controls right fg-dark" data-ng-click="goNextPhoto()" data-ng-show="photos.length > 1"><i class=" icon-arrow-right-3"></i></a>
+                <div class="markers default" data-ng-show="photos.length > 1" style="height: 25px;position: relative;bottom: 0;left: 0;">
+                    <ul style="margin: auto;">
+                        <li data-ng-class="{active : $index == selectedIndex}" data-ng-repeat="p in photos" style="display: inline-block; float: none;">
+                            <a href="" data-ng-click="goPhoto($index)"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="row" data-ng-hide="order.OrderState == 5">
+            <label class="text-center">Evaluar el Muestreo Como : </label>
+            <div id="navigation-tab" class="button-set" data-role="button-group" style="width: 200px; margin: auto;">
+                <button data-ng-click="SamplingState(1)" data-ng-class="{active : order.SamplingState == 1}">
+                    <i class="icon-checkmark"></i>
+                    Correcto
+                </button>
+                <button class="wrongSelection" data-ng-click="SamplingState(2)" data-ng-class="{active : order.SamplingState == 2}">
+                    <i class="icon-cancel-2"></i>
+                    Incorrecto
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    setTimeout(function () { $.Metro.initAll(); }, 100);
+</script>

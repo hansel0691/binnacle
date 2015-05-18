@@ -1,0 +1,57 @@
+﻿<article id="partial-body">
+    <h1>
+        <a href="" data-ng-click="goBack()"><i class="icon-arrow-left-3 fg-darker smaller"></i></a>
+        {{headerTitle}} Grupo<small class="on-right no-phone">{{auth.Employee.Role.Name}}</small>
+    </h1>
+    <div class="grid">
+        <section class="order-info row size12">
+            <div class="row">
+                <label>Identificador</label>
+                <div class="input-control text size7" data-role="input-control">
+                    <input placeholder="Identificador del grupo de trabajo" type="text" data-ng-model="package.Identifier">
+                    <button type="button" class="btn-clear" tabindex="-1"></button>
+                </div>
+            </div>
+            <div id="table-container" class="row">
+                <h2 style="margin-bottom: 10px;">Parámetros A&ntilde;adidos</h2>
+                <table class="table bordered hovered striped">
+                    <thead>
+                        <tr>
+                            <th class="text-left">Parámetro</th>
+                            <th>Recipiente</th>
+                            <th>Volumen</th>
+                            <th>Preservador</th>
+                            <th>TMPA</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="param in package.Parameters">
+                            <td class="text-left">{{param.Identifier}}</td>
+                            <td>{{param.Container}}</td>
+                            <td>{{param.Volume}}</td>
+                            <td>{{param.Preserver}}</td>
+                            <td>{{param.TMPA}}</td>
+                            <td><a href="" data-ng-click="remove_param($index)">Eliminar</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <button id="create-param" class="ribbed-cyan fg-white hover" data-ng-click="add_param()" data-ng-disabled="isLoading()">
+                    <i class="icon-plus-2"></i>
+                    Agregar Parámetro
+                </button>
+                <div class="right">
+                    <button id="create-pack" class="fg-white bg-darkBlue hover" data-ng-click="accept()" data-ng-disabled="isLoading()">
+                        <i class="icon-checkmark"></i>
+                        Aceptar...
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+</article>
+<script>
+    $.Metro.initInputs();
+</script>

@@ -1,0 +1,130 @@
+﻿<section class="order-info row size12">
+    <div class="row">
+        <div class="span12"><h2>Datos del Muestreo</h2></div>
+    </div>
+    <div class="row" style="margin-top: 5px !important;">
+        <div class="span12">
+            <label>Orden de Trabajo</label>
+            <div class="input-control text" data-role="input-control">
+                <input placeholder="Identificador de la Orden de Trabajo" type="text" data-ng-disabled="true" data-ng-model="orderInfo.identifier">
+                <button type="button" class="btn-clear" tabindex="-1"></button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="right" style="width: 50%">
+            <table class="time-picker right">
+                <tbody>
+                    <tr>
+                        <td><a href="" data-ng-click="increaseHour(orderInfo.endTime)"><i class="icon-arrow-up-5"></i></a></td>
+                        <td><a href="" data-ng-click="increaseMinute(orderInfo.endTime)"><i class="icon-arrow-up-5"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-control text">
+                                <input type="text" placeholder="hh" maxlength="2" data-ng-model="orderInfo.endTime.hour" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-control text">
+                                <input type="text" placeholder="mm" maxlength="2" data-ng-model="orderInfo.endTime.minute" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href=""><i class="icon-arrow-down-5" data-ng-click="decreaseHour(orderInfo.endTime)"></i></a></td>
+                        <td><a href=""><i class="icon-arrow-down-5" data-ng-click="decreaseMinute(orderInfo.endTime)"></i></a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="right" style="width: 260px">
+                <label>Fecha y Hora Final Estimada de Muestreo</label>
+                <div id="datepicker-section" class="input-control text" data-role="datepicker"
+                     data-effect='fade'
+                     data-format="d/m/yyyy"
+                     data-locale='es'
+                     style="width:250px !important;">
+                    <input type="text" placeholder="dd/mm/aaaa" data-ng-model="orderInfo.selectedEndDate" data-date-picker="" />
+                    <button class="btn-date"></button>
+                </div>
+            </div>
+        </div>
+        <div style="width: 50%">
+            <div class="left" style="width: 260px">
+                <label>Fecha y Hora Inicial de Muestreo</label>
+                <div id="datepicker-section" class="input-control text" data-role="datepicker"
+                     data-effect='fade'
+                     data-format='d/m/yyyy'
+                     data-locale='es'
+                     style="width:250px !important;">
+                    <input type="text" placeholder="dd/mm/aaaa" data-ng-model="orderInfo.selectedDate" data-date-picker="" />
+                    <button class="btn-date"></button>
+                </div>
+            </div>
+            <table class="time-picker">
+                <tbody>
+                    <tr>
+                        <td><a href="" data-ng-click="increaseHour(orderInfo.startTime)"><i class="icon-arrow-up-5"></i></a></td>
+                        <td><a href="" data-ng-click="increaseMinute(orderInfo.startTime)"><i class="icon-arrow-up-5"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-control text">
+                                <input type="text" placeholder="hh" maxlength="2" data-ng-model="orderInfo.startTime.hour" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-control text">
+                                <input type="text" placeholder="mm" maxlength="2" data-ng-model="orderInfo.startTime.minute" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href=""><i class="icon-arrow-down-5" data-ng-click="decreaseHour(orderInfo.startTime)"></i></a></td>
+                        <td><a href=""><i class="icon-arrow-down-5" data-ng-click="decreaseMinute(orderInfo.startTime)"></i></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span6">
+            <label>Necesidades Técnicas y Analíticas Adicionales al Muestreo</label>
+            <div class="input-control text size6" data-role="input-control">
+                <input placeholder="Necesidades Técnicas y Analíticas Adicionales al Muestreo" type="text" data-ng-model="order.SamplingData.RequirementsTechnical">
+                <button type="button" class="btn-clear" tabindex="-1"></button>
+            </div>
+        </div>
+        <div class="span6">
+            <label>Observaciones para Seguridad, Calidad y Protección Ambiental</label>
+            <div class="input-control text size6" data-role="input-control">
+                <input placeholder="Observaciones para Seguridad, Calidad y Protección Ambiental" type="text" data-ng-model="order.SamplingData.ObservationsForSafety">
+                <button type="button" class="btn-clear" tabindex="-1"></button>
+            </div>
+        </div>
+    </div>
+    <div class="row text-right">
+        <div class="input-control switch" data-role="input-control">
+            <label>
+                Si Hacer Blancos o Duplicados presione Aquí
+                <input type="checkbox" data-ng-model="order.SamplingData.DuplicatesBlank">
+                <span class="check" style="margin-left: 10px;"></span>
+            </label>
+        </div>
+    </div>
+    <div class="row" style="text-align: center;margin-top: 10px !important;">
+        <label>Tipo</label>
+        <div data-ng-repeat="type in orderInfo.samplingTypes">
+            <div class="input-control span2 radio default-style" data-role="input-control">
+                <label>
+                    <input type="radio" name="type" data-ng-model="$parent.orderInfo.selectedType" value="{{type.value}}" />
+                    <span class="check"></span>
+                    {{type.name}}
+                </label>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $.Metro.initAll();
+</script>

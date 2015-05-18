@@ -1,0 +1,137 @@
+﻿<section class="order-info row size12">
+    <div class="row">
+        <div class="row">
+            <div class="span12"><h2>Datos Generales del Cliente</h2></div>
+        </div>
+        <div class="row" style="margin-top: 5px !important">
+            <div class="span12">
+                <label>Razón Social</label>
+                <div class="input-control text" data-role="input-control">
+                    <input placeholder="Razón Social de la nueva orden de trabajo" type="text" data-ng-model="order.ClientData.SocialReason">
+                    <button type="button" class="btn-clear" tabindex="-1"></button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <label>Calle &amp; N&uacute;mero</label>
+                <div class="input-control text size6" data-role="input-control">
+                    <input placeholder="Calle/No." type="text" data-ng-model="order.ClientData.StreetNo">
+                    <button type="button" class="btn-clear" tabindex="-1"></button>
+                </div>
+            </div>
+            <div class="span6">
+                <label>Colonia</label>
+                <div class="input-control text size6" data-role="input-control">
+                    <input placeholder="Colonia" type="text" data-ng-model="order.ClientData.Colony">
+                    <button type="button" class="btn-clear" tabindex="-1"></button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <label>Del./Mpio</label>
+                <div class="input-control text size6" data-role="input-control">
+                    <input placeholder="Delegación o Municipio" type="text" data-ng-model="order.ClientData.DelMpio">
+                    <button type="button" class="btn-clear" tabindex="-1"></button>
+                </div>
+            </div>
+            <div class="span3">
+                <label>Edo.</label>
+                <div class="input-control text size3" data-role="input-control">
+                    <input placeholder="Estado" type="text" data-ng-model="order.ClientData.Edo">
+                    <button type="button" class="btn-clear" tabindex="-1"></button>
+                </div>
+            </div>
+            <div class="span3">
+                <label>C.P.</label>
+                <div class="input-control text size3" data-role="input-control">
+                    <input placeholder="C.P." type="text" data-ng-model="order.ClientData.CP">
+                    <button type="button" class="btn-clear" tabindex="-1"></button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <label>RFC.</label>
+                <div class="input-control text size6" data-role="input-control">
+                    <input placeholder="RFC." type="text" data-ng-model="order.ClientData.RFC">
+                    <button type="button" class="btn-clear" tabindex="-1"></button>
+                </div>
+            </div>
+            <div class="span6">
+                <div id="self-bill" class="input-control switch" data-role="input-control">
+                    <label>
+                        Si <span data-ng-show="order.ClientData.BillReport">no</span> se factura al mismo presione
+                        <input type="checkbox" data-ng-model="order.ClientData.BillReport" />
+                        <span class="check" style="margin-left: 5px;"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row top-dashed" style="margin-top:20px !important; padding-top:20px;" data-ng-hide="order.ClientData.BillReport">
+        <div class="row">
+            <div class="span12"><h2>Datos Generales del Cliente a Facturar</h2></div>
+        </div>
+        <div class="row" style="margin-top: 5px !important;">
+            <div class="span12">
+                <label>Razón Social</label>
+                <div class="input-control text" data-role="input-control">
+                    <input placeholder="Razón Social de la nueva orden de trabajo" type="text" data-ng-model="order.BillerClient.SocialReason">
+                    <button type="button" class="btn-clear" tabindex="-1"></button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <label>Calle &amp; N&uacute;mero</label>
+                <div class="input-control text size6" data-role="input-control">
+                    <input placeholder="Calle/No." type="text" data-ng-model="order.BillerClient.StreetNo">
+                    <button type=" button" class="btn-clear" tabindex="-1"></button>
+                </div>
+            </div>
+            <div class="span6">
+                <label>Colonia</label>
+                <div class="input-control text size6" data-role="input-control">
+                    <input placeholder="Colonia" type="text" data-ng-model="order.BillerClient.Colony">
+                    <button type=" button" class="btn-clear" tabindex="-1"></button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <label>Del./Mpio</label>
+                <div class="input-control text size6" data-role="input-control">
+                    <input placeholder="Delegación o Municipio" type="text" data-ng-model="order.BillerClient.DelMpio">
+                    <button type=" button" class="btn-clear" tabindex="-1"></button>
+                </div>
+            </div>
+            <div class="span3">
+                <label>Edo.</label>
+                <div class="input-control text size3" data-role="input-control">
+                    <input placeholder="Estado" type="text" data-ng-model="order.BillerClient.Edo">
+                    <button type="button" class="btn-clear" tabindex="-1"></button>
+                </div>
+            </div>
+            <div class="span3">
+                <label>C.P.</label>
+                <div class="input-control text size3" data-role="input-control">
+                    <input placeholder="C.P." type="text" data-ng-model="order.BillerClient.CP">
+                    <button type="button" class="btn-clear" tabindex="-1"></button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <label>RFC.</label>
+                <div class="input-control text size6" data-role="input-control">
+                    <input placeholder="RFC." type="text" data-ng-model="order.BillerClient.RFC">
+                    <button type="button" class="btn-clear" tabindex="-1"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>$.Metro.initInputs();</script>

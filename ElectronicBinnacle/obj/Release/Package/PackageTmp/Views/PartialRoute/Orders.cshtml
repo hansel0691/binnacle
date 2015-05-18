@@ -1,0 +1,417 @@
+﻿<article id="partial-body">
+    <form id="filter" class="input-control text no-tablet-portrait" data-ng-submit="searchObj()">
+        <input type="text" data-ng-model="search.identifier" data-autofocus="" placeholder="Buscar orden de trabajo" />
+        <button type="submit" class="btn-search"></button>
+    </form>
+    <h1>
+        <a href="" data-ng-click="goBack()"><i class="icon-arrow-left-3 fg-darker smaller"></i></a>
+        &Oacute;rdenes<small class="on-right">{{auth.Employee.Role.Name}}</small>
+    </h1>
+    <div id="section-btnSet" class="button-set junk-btns right" data-role="button-set">
+        <button class="hover" data-ng-class="{active : search.uncomplete}" data-ng-click="toogleOrderState(0)" style="color: #222;">
+            <i class="icon-blocked"></i>
+            Incumplidas
+        </button>
+        <button class="hover" data-ng-class="{active : search.unfinished}" data-ng-click="toogleOrderState(1)" style="color: #222;">
+            <i class="icon-download-2"></i>
+            Sin Terminar
+        </button>
+        <button class="hover" data-ng-class="{active : search.unsended}" data-ng-click="toogleOrderState(2)" style="color: #222;">
+            <i class="icon-box-add"></i>
+            Sin Enviar
+        </button>
+        <button class="hover" data-ng-class="{active : search.sended}" data-ng-click="toogleOrderState(3)" style="color: #222;">
+            <i class="icon-box-remove"></i>
+            Enviadas
+        </button>
+        <button class="hover" data-ng-class="{active : search.unevaluated}" data-ng-click="toogleOrderState(4)" style="color: #222;">
+            <i class="icon-cancel"></i>
+            Sin Evaluar
+        </button>
+        <button class="hover" data-ng-class="{active : search.evaluated}" data-ng-click="toogleOrderState(5)" style="color: #222;">
+            <i class="icon-checkbox"></i>
+            Evaluadas
+        </button>
+    </div>
+    <div class="advanced-filter left">
+        <div class="button-dropdown" >
+            <button class="hover" style="background: #fa6800; color: #fff" data-ng-disabled="!orders.length" data-ng-click="generationMsg = !generationMsg;generationBttmMsg = false">
+                <i class="icon-printer"></i>
+                Generar Reporte
+            </button>
+            <div class="notice marker-on-top fg-white report-notice shadow animate-show" data-ng-show="generationMsg">
+                <a href="" data-ng-click="reportGeneration(0)">Generar Excel</a> |
+                <a href="" data-ng-click="reportGeneration(1)">Generar PDF</a>
+            </div>
+        </div>
+        <button id="advanced-filter" class="success hover" data-ng-click="onFilter()">
+            <i class="icon-filter"></i>
+            Filtro Avanzado
+        </button>
+    </div>
+    <div class="grid clear">
+        <div id="top-status-bar" style="padding: 1px; border: 1px dashed #1B6EAE; margin-bottom: -15px; " data-ng-controller="StatusCtrl" data-ng-show="orders.length">
+            <div class="order-status">
+                <a href="" class="right" data-ng-click="toogleSatus(1)">X</a>
+                <div class="right">
+                    <img src="~/Images/img.png" alt="Icono de Enviado" style="height: 100px; margin: 0 20px; " />
+                </div>
+                <div class="status-header subheader-secondary">
+                    <span>{{getStatusTitle()}}</span>
+                </div>
+                <div class="status-content grid">
+                    <div class="span10">
+                        <p>
+                            {{getStatusContent()}}
+                        </p>
+                    </div>
+                </div>
+                <div class="status-footer item-title" data-ng-if="order.OrderState >= 2">
+                    <span>{{getStatusFooter()}}</span> <button data-ng-click="onAction()" style="margin-right: 5px;">{{getSatusAction()}}...</button><button data-ng-click="goToUrl('/order/' + order.Id + '/samples')" data-ng-if="order.OrderState == 5">Ver...</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span4">
+                <h2>Lista de &Oacute;rdenes</h2>
+                <div id="list-filter" class="listview-outlook" data-role="listview">
+                    <div class="list-group">
+                        <a href="" class="group-title">Hoy en Adelante</a>
+                        <div style="display: block;" class="group-content">
+                            <a class="list" id="example" data-ng-class="{marked : order.selected}" href="" data-ng-repeat="order in orders | filter: dayFilter(0)" data-ng-click="viewOrder(order.Id)" data-ng-dblclick="toogleSatus()" title="{{getState(order.Id)}}!">
+                                <div class="list-content">
+                                    <span class="list-title"><span class="place-right state icon-flag-2 smaller" data-ng-class="{'fg-darkRed' : order.OrderState == 0, 'fg-amber' : order.OrderState == 1, 'fg-lightRed' : order.OrderState == 2, 'fg-lightOlive' : order.OrderState == 3}"></span>{{order.SamplingData.Identifier}}</span>
+                                    <span class="list-subtitle"><span class="place-right" data-parse-date="{{order.SamplingData.EndTime}}"></span>Fecha: <span data-parse-date="{{order.SamplingData.StartTime}}"></span></span>
+                                    <span class="list-sender place-left"><span class="place-right">Para: {{order.Sampler.Name}} {{order.Sampler.LastName}}</span>Por: {{order.Creator.Name}}</span>
+                                    <span class="list-remark">Lugar :<span class="fg-darkCyan">{{order.LocationData.Place}}</span></span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="list-group">
+                        <a href="" class="group-title">Ayer</a>
+                        <div style="display: block;" class="group-content">
+                            <a class="list" data-ng-class="{marked : order.selected}" href="" data-ng-repeat="order in orders | filter: dayFilter(1)" data-ng-click="viewOrder(order.Id)" data-ng-dblclick="toogleSatus()" title="{{getState(order.Id)}}!">
+                                <div class="list-content">
+                                    <span class="list-title"><span class="place-right state icon-flag-2 smaller" data-ng-class="{'fg-darkRed' : order.OrderState == 0, 'fg-amber' : order.OrderState == 1, 'fg-lightRed' : order.OrderState == 2, 'fg-lightOlive' : order.OrderState == 3}"></span>{{order.SamplingData.Identifier}}</span>
+                                    <span class="list-subtitle"><span class="place-right" data-parse-date="{{order.SamplingData.EndTime}}"></span>Fecha: <span data-parse-date="{{order.SamplingData.StartTime}}"></span></span>
+                                    <span class="list-sender place-left"><span class="place-right">Para: {{order.Sampler.Name}} {{order.Sampler.LastName}}</span>Por: {{order.Creator.Name}}</span>
+                                    <span class="list-remark">Lugar :<span class="fg-darkCyan">{{order.LocationData.Place}}</span></span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="list-group">
+                        <a href="" class="group-title">Hace una semana</a>
+                        <div style="display: block;" class="group-content">
+                            <a class="list" data-ng-class="{marked : order.selected}" href="" data-ng-repeat="order in orders | filter: dayFilter(2)" data-ng-click="viewOrder(order.Id)" data-ng-dblclick="toogleSatus()" title="{{getState(order.Id)}}!">
+                                <div class="list-content">
+                                    <span class="list-title"><span class="place-right state icon-flag-2 smaller" data-ng-class="{'fg-darkRed' : order.OrderState == 0, 'fg-amber' : order.OrderState == 1, 'fg-lightRed' : order.OrderState == 2, 'fg-lightOlive' : order.OrderState == 3}"></span>{{order.SamplingData.Identifier}}</span>
+                                    <span class="list-subtitle"><span class="place-right" data-parse-date="{{order.SamplingData.EndTime}}"></span>Fecha: <span data-parse-date="{{order.SamplingData.StartTime}}"></span></span>
+                                    <span class="list-sender place-left"><span class="place-right">Para: {{order.Sampler.Name}} {{order.Sampler.LastName}}</span>Por: {{order.Creator.Name}}</span>
+                                    <span class="list-remark">Lugar :<span class="fg-darkCyan">{{order.LocationData.Place}}</span></span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="list-group">
+                        <a href="" class="group-title">Hace m&aacute;s de una semana</a>
+                        <div style="display: block;" class="group-content">
+                            <div style="display: block;" class="group-content">
+                                <a class="list" data-ng-class="{marked : order.selected}" href="" data-ng-repeat="order in orders | filter: dayFilter(3)" data-ng-click="viewOrder(order.Id)" data-ng-dblclick="toogleSatus()" title="{{getState(order.Id)}}!">
+                                    <div class="list-content">
+                                        <span class="list-title"><span class="place-right state icon-flag-2 smaller" data-ng-class="{'fg-darkRed' : order.OrderState == 0, 'fg-amber' : order.OrderState == 1, 'fg-lightRed' : order.OrderState == 2, 'fg-lightOlive' : order.OrderState == 3}"></span>{{order.SamplingData.Identifier}}</span>
+                                        <span class="list-subtitle"><span class="place-right" data-parse-date="{{order.SamplingData.EndTime}}"></span>Fecha: <span data-parse-date="{{order.SamplingData.StartTime}}"></span></span>
+                                        <span class="list-sender place-left"><span class="place-right">Para: {{order.Sampler.Name}} {{order.Sampler.LastName}}</span>Por: {{order.Creator.Name}}</span>
+                                        <span class="list-remark">Lugar :<span class="fg-darkCyan">{{order.LocationData.Place}}</span></span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pagination" data-ng-hide="simplePagination.last <= 1">
+                    <ul>
+                        <li><a data-ng-click="goPage(simplePagination, 0)" href=""><i class="icon-first-2"></i></a></li>
+                        <li><a data-ng-click="goPage(simplePagination, simplePagination.currentIndex - 1)" href=""><i class="icon-previous"></i></a></li>
+                        <li data-ng-class="{active : $index == simplePagination.currentIndex}" data-ng-show="simplePagination.low <= $index && $index <= simplePagination.top" data-ng-repeat="index in simplePagination.pagination">
+                            <a href="" data-ng-click="goPage(simplePagination, $index)">{{$index+1}}</a>
+                        </li>
+                        <li><a data-ng-click="goPage(simplePagination, simplePagination.currentIndex + 1)" href=""><i class="icon-next"></i></a></li>
+                        <li><a href="" data-ng-click="goPage(simplePagination, simplePagination.last-1)"><i class="icon-last-2"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="span8 order-view">
+                <h2 style="margin-left: 10px">Datos de la Orden</h2>
+                <div id="section-accordion" class="accordion with-marker place-left margin10" style="margin-top: 0px;" data-role="accordion" data-closeany="false">
+                    <div class="accordion-frame">
+                        <a class="heading ribbed-cyan fg-white" href="#">Datos Generales del Cliente</a>
+                        <div class="content">
+                            <table class="question-answer askleft right">
+                                <tbody>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Colonia :</td>
+                                        <td>{{order.ClientData.Colony}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>CP :</td>
+                                        <td>{{order.ClientData.CP}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Factura :</td>
+                                        <td>
+                                            <span data-ng-switch data-on="order.ClientData.BillReport"><span data-ng-switch-when="true">Si</span><span data-ng-switch-when="false">No</span></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="question-answer askleft">
+                                <tbody>
+                                    <tr>
+                                        <td>Razón Social :</td>
+                                        <td>{{order.ClientData.SocialReason}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left">Calle y No :</td>
+                                        <td>{{order.ClientData.StreetNo}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Delegación/Municipio :</td>
+                                        <td style="width: 35%">{{order.ClientData.DelMpio}}</td>
+                                        <td>Estado :</td>
+                                        <td>{{order.ClientData.Edo}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>RFC :</td>
+                                        <td>{{order.ClientData.RFC}}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="accordion-frame" data-ng-hide="order.ClientData.BillReport">
+                        <a class="heading ribbed-cyan fg-white collapsed" href="#">Datos Generales del Cliente a Facturar</a>
+                        <div style="display: none;" class="content">
+                            <table class="right question-answer askleft">
+                                <tbody>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Colonia :</td>
+                                        <td>{{order.BillerClient.Colony}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>C.P :</td>
+                                        <td>{{order.BillerClient.CP}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="question-answer askleft">
+                                <tbody>
+                                    <tr>
+                                        <td>Razón Social :</td>
+                                        <td>{{order.BillerClient.SocialReason}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-left">Calle y No :</td>
+                                        <td>{{order.BillerClient.StreetNo}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Delegación/Municipio :</td>
+                                        <td style="width: 37%">{{order.BillerClient.DelMpio}}</td>
+                                        <td>Estado :</td>
+                                        <td>{{order.BillerClient.Edo}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>RFC :</td>
+                                        <td>{{order.BillerClient.RFC}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="accordion-frame">
+                        <a class="heading ribbed-cyan fg-white collapsed" href="#">Datos Particulares del Sitio de Muestreo</a>
+                        <div style="display: none;" class="content">
+                            <table class="right question-answer askleft">
+                                <tbody>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Colonia :</td>
+                                        <td>{{order.LocationData.Colony}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>C.P :</td>
+                                        <td>{{order.LocationData.CP}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Celular :</td>
+                                        <td>{{order.LocationData.Cellphone}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="question-answer askleft">
+                                <tbody>
+                                    <tr>
+                                        <td>Planta o Lugar :</td>
+                                        <td>{{order.LocationData.Place}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Calle y No :</td>
+                                        <td>{{order.LocationData.StreetNo}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Delegación/Municipio :</td>
+                                        <td style="width: 37%">{{order.LocationData.DelMpio}}</td>
+                                        <td>Estado :</td>
+                                        <td>{{order.LocationData.Edo}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Contacto :</td>
+                                        <td style="width: 37%;">{{order.LocationData.Contact}}</td>
+                                        <td>Teléfono :</td>
+                                        <td>{{order.LocationData.Phone}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Correo :</td>
+                                        <td>{{order.LocationData.Email}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="accordion-frame active">
+                        <a class="heading ribbed-cyan fg-white collapsed" href="#">Datos del Muestreo</a>
+                        <div class="content">
+                            <div class="right ">
+                                <br />
+                                <table class="question-answer askleft">
+                                    <tbody>
+                                        <tr>
+                                            <td>Muestreador encargado :</td>
+                                            <td>{{order.Sampler.FullName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Hora de Inicio:</td>
+                                            <td>{{getHours(order.SamplingData.StartTime)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Hora Final:</td>
+                                            <td>{{getHours(order.SamplingData.EndTime)}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Antelación de Alarma :</td>
+                                            <td>{{getHours(order.SamplingData.Period)}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <table class="question-answer askleft">
+                                <tbody>
+                                    <tr>
+                                        <td>Orden de Trabajo :</td>
+                                        <td>{{order.SamplingData.Identifier}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Creada por :</td>
+                                        <td>{{order.Creator.Employee.FullName}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fecha de Inicio :</td>
+                                        <td>{{getDate(order.SamplingData.StartTime)}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fecha de Finalización :</td>
+                                        <td>{{getDate(order.SamplingData.EndTime)}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tipo :</td>
+                                        <td>{{getSamplingKind(order.SamplingData.SamplingKind)}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="accordion-frame active">
+                        <a class="heading ribbed-cyan fg-white collapsed" href="#">Par&aacute;metros</a>
+                        <div class="content">
+                            <table class="table hovered bordered" style="margin-top: 15px;">
+                                <thead>
+                                    <tr>
+                                        <th>Identificador</th>
+                                        <th>No. de Muestras</th>
+                                        <th>Tipo de Muestras</th>
+                                        <th>Período <span class="measurement-unit">(h)</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-ng-repeat="pack in order.parameters">
+                                        <td class="blue" data-ng-switch data-on="pack.type">
+                                            <a href="#/package/{{pack.Id}}" data-ng-switch-when="0" style="text-transform: none;">{{pack.identifier}}</a>
+                                            <a href="#/params" data-ng-switch-when="1" style="text-transform: none;">{{pack.identifier}}</a>
+                                        </td>
+                                        <td class="blue">{{pack.samplesNo}}</td>
+                                        <td>
+                                            <span data-ng-switch data-on="pack.sampleType">
+                                                <span data-ng-switch-when="0">Simple</span>
+                                                <span data-ng-switch-when="1">Compuesta</span>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span data-ng-switch data-on="pack.sampleType">
+                                                <span data-ng-switch-when="0">-</span>
+                                                <span data-ng-switch-when="1">{{pack.period}}</span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="bootom-status-bar" style="padding: 1px; border: 1px dashed #1B6EAE;margin-top: 20px;" data-ng-controller="StatusCtrl" data-ng-show="orders.length">
+            <div class="order-status">
+                <a href="" class="right" data-ng-click="toogleSatus(2)">X</a>
+                <div class="right">
+                    <img src="~/Images/img.png" alt="Icono de Enviado" style="height: 100px; margin: 0 20px; " />
+                </div>
+                <div class="status-header subheader-secondary">
+                    <span>{{getStatusTitle()}}</span>
+                </div>
+                <div class="status-content grid">
+                    <div class="span10">
+                        <p>
+                            {{getStatusContent()}}
+                        </p>
+                    </div>
+                </div>
+                <div class="status-footer item-title" data-ng-if="order.OrderState >= 2">
+                    <span>{{getStatusFooter()}}</span> <button data-ng-click="onAction()" style="margin-right: 5px;">{{getSatusAction()}}...</button><button data-ng-click="goToUrl('/order/' + order.Id + '/samples')" data-ng-if="order.OrderState == 5">Ver...</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="exterior-option" style="right: 25px; bottom: 50px;" data-ng-click="generationBttmMsg = !generationBttmMsg; generationMsg = false;" data-ng-show="orders.length">
+        <i class="icon-printer"></i>
+    </div>
+    <div class="notice marker-on-right fg-white report-notice shadow animate-show" style="position: fixed !important;right: 85px;bottom: 45px;" data-ng-show="generationBttmMsg">
+        <a href="" data-ng-click="reportGeneration(0,-1)">Generar Excel</a> |
+        <a href="" data-ng-click="reportGeneration(1,-1)">Generar PDF</a>
+    </div>
+</article>
+<script>
+    $.Metro.initAll();
+</script>

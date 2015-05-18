@@ -1,0 +1,68 @@
+﻿<article id="partial-body">
+    <form id="filter" class="input-control text no-tablet-portrait" data-ng-submit="searchObj()">
+        <input type="text" data-ng-model="search.Identifier" data-autofocus="" placeholder="Buscar parámetro" />
+        <button type="submit" class="btn-search"></button>
+    </form>
+    <h1>
+        <a href="" data-ng-click="goBack()"><i class="icon-arrow-left-3 fg-darker smaller"></i></a>
+        Parámetros<small class="on-right">{{auth.Employee.Role.Name}}</small>
+    </h1>
+    <div class="advanced-filter right">
+        <button id="filter-btn" class="success hover" data-ng-click="onAdvancedFilter()">
+            <i class="icon-filter"></i>
+            Filtro Avanzado
+        </button>
+    </div>
+    <div class="create-new left" data-ng-if="hasPermission([17])">
+        <button id="create-param" class="ribbed-cyan fg-white hover" data-ng-click="create_param()">
+            <i class="icon-plus-2"></i>
+            Crear Parámetro
+        </button>
+    </div>
+    <table class="table bordered hovered">
+        <thead>
+            <tr>
+                <th class="text-left">Nombre</th>
+                <th>Recipiente</th>
+                <th>Preservador</th>
+                <th>Llave</th>
+                <th style="width: 90px;">Volumen</th>
+                <th style="width: 90px;">TMPA</th>
+                <th style="width: 90px;">De Campo</th>
+                <th style="width: 130px;" data-ng-if="hasPermission([18, 19])">Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-ng-repeat="param in params">
+                <td class="text-left">{{param.Identifier}}</td>
+                <td>{{param.Container}}</td>
+                <td>{{param.Preserver}}</td>
+                <td>{{param.Key}}</td>
+                <td style="width: 90px;">{{param.Volume}}</td>
+                <td style="width: 90px;">{{param.TMPA}}</td>
+                <td style="width: 90px;">
+                    <i class="fg-lightGreen icon-checkmark" data-ng-if="param.FieldMeasurement"></i>
+                    <i class="icon-cancel-2" data-ng-if="!param.FieldMeasurement"></i>
+                </td>
+                <td data-ng-if="hasPermission([18, 19])">
+                    <a href="" data-ng-click="editParam(param.ParameterId, $index)" data-ng-if="hasPermission([18])">Editar</a> <span data-ng-if="hasPermissionAnd([18, 19])">|</span>
+                    <a href="" data-ng-click="removeParam(param.ParameterId, param.Identifier, $index)" data-ng-if="hasPermission([19])">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination" data-ng-hide="simplePagination.last <= 1">
+        <ul>
+            <li><a data-ng-click="goPage(simplePagination, 0)" href=""><i class="icon-first-2"></i></a></li>
+            <li><a data-ng-click="goPage(simplePagination, simplePagination.currentIndex - 1)" href=""><i class="icon-previous"></i></a></li>
+            <li data-ng-class="{active : $index == simplePagination.currentIndex}" data-ng-show="simplePagination.low <= $index && $index <= simplePagination.top" data-ng-repeat="index in simplePagination.pagination">
+                <a href="" data-ng-click="goPage(simplePagination, $index)">{{$index+1}}</a>
+            </li>
+            <li><a data-ng-click="goPage(simplePagination, simplePagination.currentIndex + 1)" href=""><i class="icon-next"></i></a></li>
+            <li><a href="" data-ng-click="goPage(simplePagination, simplePagination.last-1)"><i class="icon-last-2"></i></a></li>
+        </ul>
+    </div>
+</article>
+
+

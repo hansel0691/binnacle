@@ -1,0 +1,184 @@
+﻿<article id="partial-body">
+    <h1>
+        <a href="" data-ng-click="goBack()"><i class="icon-arrow-left-3 fg-darker smaller"></i></a>
+        {{pageInfo.headerTitle}} Empleado<small class="on-right no-phone">{{auth.Employee.Role.Name}}</small>
+    </h1>
+
+    <section id="info-block">
+        <div class="ribbed-cyan fg-white accordion-heading">Información Personal</div>
+        <form data-ng-submit="accept()">
+            <fieldset>
+                <div id="sign-img" class="no-tablet-portrait">
+                    <br />
+                    <a href="" data-ng-click="onSignSelect()">
+                        <div class="image-container shadow" style="height: 100px">
+                            <img src="data:image/png;base64,{{!employee.Signature ? defaultSign : employee.Signature}}" style="height:100px;background: #efefef;height: 100px">
+                        </div>
+                    </a>
+                    <input id="signature" style="width: 0;" type="file" accept="image/png" ng-hide="true" onchange="angular.element(this).scope().uploadFile(this.files)"> <br />
+                </div>
+                <div id="name-section" style="margin-right: 30px;">
+                    <label>Nombre(s)</label>
+                    <div class="input-control text size4" data-role="input-control">
+                        <input placeholder="Nombre(s) del empleado" type="text" data-ng-model="employee.Name">
+                        <button type="button" class="btn-clear" tabindex="-1"></button>
+                    </div>
+                </div>
+                <div id="name-section">
+                    <label>Apellido(s)</label>
+                    <div class="input-control text size4" data-role="input-control">
+                        <input placeholder="Apellido(s) del empleado" type="text" data-ng-model="employee.LastName">
+                        <button type="button" class="btn-clear" tabindex="-1"></button>
+                    </div>
+                </div>
+                <div id="email-section">
+                    <label>Email</label>
+                    <div class="input-control text" data-role="input-control">
+                        <input placeholder="empleado@email.com" type="email" data-ng-model="employee.Email">
+                        <button type="button" class="btn-clear" tabindex="-1"></button>
+                    </div>
+                </div>
+                <div id="phone-section">
+                    <label>Teléfono</label>
+                    <div class="input-control text size4" data-role="input-control">
+                        <input placeholder="0000-0000000" type="text" data-ng-model="employee.PhoneNumber">
+                        <button type="button" class="btn-clear" tabindex="-1"></button>
+                    </div>
+                </div>
+                <div id="degree-section" style="width: 450px;">
+                    <label>Título Profesional</label>
+                    <div id="title-text" class="input-control text size4" data-role="input-control" style="margin: 0;">
+                        <input placeholder="Especialidad" type="text" data-ng-model="employee.Speciality">
+                        <button type="button" class="btn-clear" tabindex="-1"></button>
+                    </div>
+                    <select class="dropdown-list" data-ng-model="employee.Degree" style="width: 120px; margin-top: 1px; border: 1px #d9d9d9 solid;">
+                        <option value="0">Ninguno</option>
+                        <option value="1">Lic.</option>
+                        <option value="2">Ing.</option>
+                        <option value="3">Tec.</option>
+                    </select>
+                </div>
+                <div class="clear"></div>
+                <div id="role-section" class="size4">
+                    <label>Role del Empleado en la Empresa</label>
+                    <select id="roles-select" class="dropdown-list size3" data-ng-model="employee.Role.RoleId" data-ng-options="role.RoleId as role.Name for role in roles" style="border: 1px #d9d9d9 solid;"></select>
+                </div>
+                <section style="margin-top: 20px;" data-ng-show="employee.Role.RoleId != undefined">
+                    <div class="ribbed-cyan fg-white accordion-heading">
+                        <span data-ng-if="employee.Role.RoleId != 5">Información del Usuario</span>
+                        <span data-ng-if="employee.Role.RoleId == 5">Información del Muestreador</span>
+                    </div>
+                    <div data-ng-show="isRelatedData([3, 4, 5], false)">
+                        <label>IMEI</label>
+                        <div class="input-control text" data-role="input-control">
+                            <input placeholder="0000-0000-0000" type="text" data-ng-model="employee.User.IMEI">
+                        </div>
+                    </div>
+                    <div data-ng-show="isRelatedData([1, 2, 3, 4], true)">
+                        <label>Nombre de Usuario</label>
+                        <div class="input-control text" data-role="input-control">
+                            <input placeholder="Escriba un nombre de usuario" type="text" data-ng-model="employee.User.Name">
+                            <button type="button" class="btn-clear" tabindex="-1"></button>
+                        </div>
+                    </div>
+                    <div data-ng-show="isRelatedData([5], false)">
+                        <label>Identificador de Bitácora</label>
+                        <div class="input-control text" data-role="input-control">
+                            <input placeholder="Identificador de Bitácora" type="text" data-ng-model="employee.User.BinnacleIdentifier">
+                            <button type="button" class="btn-clear" tabindex="-1"></button>
+                        </div>
+                    </div>
+                    <div data-ng-show="isRelatedData([5], false)">
+                        <label>Puesto</label>
+                        <div class="input-control text" data-role="input-control">
+                            <input placeholder="Puesto" type="text" data-ng-model="employee.User.Job">
+                            <button type="button" class="btn-clear" tabindex="-1" data-ng-model="employee.User.Job"></button>
+                        </div>
+                    </div>
+                    <div data-ng-show="isRelatedData([5], false)">
+                        <label>Categoría</label>
+                        <div class="input-control text" data-role="input-control">
+                            <input placeholder="Categoría" type="text" data-ng-model="employee.User.Category">
+                            <button type="button" class="btn-clear" tabindex="-1"></button>
+                        </div>
+                    </div>
+                    <div data-ng-show="isRelatedData([5], false)">
+                        <label>Sucursal</label>
+                        <div class="input-control text" data-role="input-control">
+                            <input placeholder="Sucursal" type="text" data-ng-model="employee.User.Subsidiary">
+                            <button type="button" class="btn-clear" tabindex="-1"></button>
+                        </div>
+                    </div>
+                    <div data-ng-show="hasPermission(27)">
+                        <label>Identificador de Muestreo</label>
+                        <div class="input-control text" data-role="input-control">
+                            <input placeholder="Identificador de Muestreo" autocomplete="off" type="text" data-ng-model="employee.User.SamplingIdentifier">
+                            <button type="button" class="btn-clear" tabindex="-1"></button>
+                        </div>
+                    </div>
+                    <div data-ng-show="isRelatedData([1, 2, 3, 4], true)">
+                        <label for="">Contraseña:</label>
+                        <div class="input-control password" data-role="input-control">
+                            <input placeholder="escriba una contraseña" autocomplete="off" type="password" data-ng-model="password">
+                            <button type="button" class="btn-reveal" tabindex="-1"></button>
+                        </div>
+                    </div>
+                    <div data-ng-show="isRelatedData([1, 2, 3, 4], true)">
+                        <label>Repetir la contraseña</label>
+                        <div class="input-control password" data-role="input-control">
+                            <input placeholder="repita la contraseña" autocomplete="off" type="password" data-ng-model="repeat_password">
+                            <button type="button" class="btn-reveal" tabindex="-1"></button>
+                        </div>
+                    </div>
+                </section>
+                <section style="margin-top: 20px;" data-ng-show="employee.Role.RoleId && employee.Role.RoleId == 5">
+                    <div class="ribbed-cyan fg-white accordion-heading">
+                        Equipo de Calibración
+                    </div>
+                    <div>
+                        <label>Nombre</label>
+                        <div class="input-control text" data-role="input-control">
+                            <input placeholder="Nombre del Equipo" type="text" data-ng-model="employee.User.CalibrationKit.Name">
+                        </div>
+                    </div>
+                    <div>
+                        <label>Serie</label>
+                        <div class="input-control text" data-role="input-control">
+                            <input placeholder="Serie del Equipo" type="text" data-ng-model="employee.User.CalibrationKit.Series">
+                            <button type="button" class="btn-clear" tabindex="-1"></button>
+                        </div>
+                    </div>
+                    <div>
+                        <label>Modelo</label>
+                        <div class="input-control text" data-role="input-control">
+                            <input placeholder="Modelo del Equipo" type="text" data-ng-model="employee.User.CalibrationKit.Model">
+                            <button type="button" class="btn-clear" tabindex="-1"></button>
+                        </div>
+                    </div>
+                </section>
+                <section style="margin-top: 20px;" data-ng-show="employee.Role.RoleId && employee.Role.RoleId == 5">
+                    <div class="ribbed-cyan fg-white accordion-heading">
+                        Tipos de Agua para los que esta Preparado el Muestreador
+                    </div>
+                    <div class="text-center">
+                        <div class="input-control checkbox margin10" data-role="input-control" data-ng-repeat="type in employeeInfo.samplingTypes" style="display: inline-block;">
+                            <label>
+                                <input type="checkbox" data-ng-model="type.value">
+                                <span class="check text-left"></span>
+                                {{type.name}}
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                <button id="accept" class="fg-white bg-darkBlue right size2 hover" type="submit" data-ng-disabled="isLoading()">
+                    <i class="icon-checkmark"></i>
+                    Aceptar...
+                </button>
+            </fieldset>
+        </form>
+    </section>
+    <div class="clear"></div>
+</article>
+<script>
+    $.Metro.initInputs();
+</script>

@@ -1,0 +1,55 @@
+﻿<article id="partial-body">
+    <form id="filter" class="input-control text no-tablet-portrait" data-ng-submit="searchObj()">
+        <input type="text" data-ng-model="search.Name" data-autofocus="" placeholder="Buscar en Roles" />
+        <button type="submit" class="btn-search"></button>
+    </form>
+    <h1>
+        <a href="" data-ng-click="goBack()"><i class="icon-arrow-left-3 fg-darker smaller"></i></a>
+        Roles<small class="on-right">{{auth.Employee.Role.Name}}</small>
+    </h1>
+    <div class="input-control switch" data-role="input-control">
+        <label>
+            Roles Activos
+            <input type="checkbox" data-ng-click="seeToogleActive()" data-ng-model="search.Active" />
+            <span class="check" style="margin-left: 5px;"></span>
+        </label>
+    </div>
+    <button id="add-employee" class="ribbed-cyan fg-white hover" data-ng-click="create_role()" data-ng-if="hasPermission(7)" data-ng-disabled="isLoading()">
+        <i class="icon-plus-2"></i>
+        Crear Role
+    </button>
+    <div class="table-container">
+        <table class="table hovered bordered" style="color: #444;">
+            <thead>
+                <tr>
+                    <th class="text-left">Nombre</th>
+                    <th class="hcenter-row">Estado</th>
+                    <th class="hcenter-row" data-ng-if="hasPermission(8)">Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="role in roles">
+                    <td class="text-left">{{role.Name}}</td>
+                    <td><span data-ng-switch data-on="role.Active"><span data-ng-switch-when="true">activo</span><span data-ng-switch-when="false">inactivo</span></span></td>
+                    <td data-ng-if="hasPermission(8)">
+                        <div data-ng-show="role.RoleId > 1">
+                            <a href="#/edit/role/{{role.RoleId}}">Editar</a>
+                            | <a href="" data-ng-click="toogle_role(role.RoleId)"><span data-ng-switch data-on="role.Active"><span data-ng-switch-when="true">Desactivar</span><span data-ng-switch-when="false">Activar</span></span></a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="pagination" data-ng-hide="simplePagination.last <= 1">
+        <ul>
+            <li><a data-ng-click="goPage(simplePagination, 0)" href=""><i class="icon-first-2"></i></a></li>
+            <li><a data-ng-click="goPage(simplePagination, simplePagination.currentIndex - 1)" href=""><i class="icon-previous"></i></a></li>
+            <li data-ng-class="{active : $index == simplePagination.currentIndex}" data-ng-show="simplePagination.low <= $index && $index <= simplePagination.top" data-ng-repeat="index in simplePagination.pagination">
+                <a href="" data-ng-click="goPage(simplePagination, $index)">{{$index+1}}</a>
+            </li>
+            <li><a data-ng-click="goPage(simplePagination, simplePagination.currentIndex + 1)" href=""><i class="icon-next"></i></a></li>
+            <li><a href="" data-ng-click="goPage(simplePagination, simplePagination.last-1)"><i class="icon-last-2"></i></a></li>
+        </ul>
+    </div>
+</article>

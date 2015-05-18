@@ -1,0 +1,18 @@
+﻿<article id="partial-body" >
+    <h1>
+        <a href="" data-ng-click="goBack()"><i class="icon-arrow-left-3 fg-darker smaller"></i></a>
+        Orden de Trabajo<small class="on-right no-phone"> {{auth.Employee.Role.Name}}</small>
+    </h1>
+    <div class="grid">
+        <div data-ng-include="selectedTemplate.path" style="min-height: 400px;"></div>
+        <div id="section-stepper" class="stepper diamond" data-steps="5" data-role="stepper" data-start="1"></div>
+        <div style="margin-bottom: 70px !important;">
+            <button href="" class="left bg-green fg-white" data-ng-click="go_previous()" data-ng-disabled="orderInfo.firstStep || isLoading()"><i class="icon-arrow-left"></i> Anterior</button>
+            <button href="" class="right fg-white bg-cyan" data-ng-click="go_next()" data-ng-disabled="isLoading()" style="min-width: 95px;"><span data-ng-switch data-on="orderInfo.lastStep"><span data-ng-switch-when="false">Siguiente</span><span data-ng-switch-when="true">Enviar</span></span><i class="icon-arrow-right" style="margin-left: 7px; margin-right: 0px;"></i></button>
+        </div>
+    </div>
+</article>
+<div class="exterior-option" style="right: 25px; bottom: 50px;" data-ng-click="saveOrder()" data-ng-disabled="isLoading()">
+    <i class="icon-download-2"></i>
+</div>
+<script>$.Metro.initAll();</script>

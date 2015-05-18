@@ -1,0 +1,95 @@
+﻿<section class="order-info row size12">
+    <div class="row">
+        <div class="right text-right" style="padding-top: 6px;">
+            <span style="margin-left:10px;">Id de Bitácora : <span class="blue">{{order.Sampler.User.BinnacleIdentifier}}</span></span>
+            <span style="margin-left:10px;">Folio : <span class="blue">1</span></span>
+            <br>
+            <span>Formato : <span style="color:#1B6EAE;">Lorem ipsum dolor.</span></span>
+        </div>
+        <h2 style="margin-top:15px">
+            P&aacute;gina Inicio Bit&aacute;cora
+            <a href="" style="color:#999;"><i class="icon-arrow-left-5"></i></a>
+            <a href="" style="color:#78AA1C;" data-ng-click="selectedTemplate.path = 'PartialRoute/svbinnacle2'"><i class="icon-arrow-right-5"></i></a>
+        </h2>
+    </div>
+    <div class="row mtop10">
+        <div class="accordion with-marker place-left" data-role="accordion" data-closeany="false" style="width:100%">
+            <div class="accordion-frame active">
+                <a class="heading ribbed-cyan fg-white" href="#">DATOS DEL RESPONSABLE DE LA BITACORA</a>
+                <div class="content row">
+                    <table class="question-answer right">
+                        <tr>
+                            <td>Categor&iacute;a : </td>
+                            <td>{{order.Sampler.User.Category}}</td>
+                        </tr>
+                        <tr>
+                            <td>Sucursal : </td>
+                            <td>{{order.Sampler.User.Subsidiary}}</td>
+                        </tr>
+                    </table>
+                    <table class="question-answer">
+                        <tr>
+                            <td>Nombre : </td>
+                            <td>{{order.Sampler.FullName}}</td>
+                        </tr>
+                        <tr>
+                            <td>Puesto : </td>
+                            <td>{{order.Sampler.User.Job}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="accordion-frame active">
+                <a class="heading ribbed-cyan fg-white" href="#">REGISTRO DE CONTROL DE BITACORA</a>
+                <div class="content row">
+                    <div class="row">
+                        <span class="span3 text-left" style="margin-left:20px;">
+                            Fecha de Inicio : <span>{{getDate(binnacle.FirstDate, '/')}}</span>
+                        </span>
+                        <span class="span4 text-center">
+                            Del Folio : <span>1</span><span class="fg-darker"> Al </span> <span>{{binnacle.bitacora2.folio}}</span>
+                        </span>
+                    </div>
+
+                    <div class="clear"></div>
+                    <div class="left" style="width: 50%; padding: 20px 20px;">
+                        Supervisor
+                        <div class="image-container shadow" style="height:100px">
+                            <img src="data:image/png;base64,{{order.Creator.Employee.Signature}}" alt="Firma" style="height:100px">
+                            <div class="overlay-fluid text-center">
+                                {{order.Creator.Employee.FullName}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right text-right" style="width: 50%; padding: 20px 20px;text-align: -moz-right;">
+                        Muestreador
+                        <br />
+                        <div class="image-container right shadow" style="height:100px">
+                            <img src="data:image/png;base64,{{order.Sampler.Signature}}" alt="Firma" style="height:100px">
+                            <div class="overlay-fluid text-center">
+                                {{order.Sampler.FullName}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-frame active">
+                <a class="heading ribbed-cyan fg-white" href="#">OBSERVACIONES</a>
+                <div class="content row">
+                    <div class="answer-paragraph">
+                        {{binnacle.bitacora1.observaciones}}
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-frame active">
+                <a class="heading ribbed-cyan fg-white" href="#">REGLAS DE USO DE LA BITACORA</a>
+                <div class="content row" style="text-align: justify;">
+                    <div class="answer-paragraph fg-dark">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius, sint commodi minus aperiam rerum quod ipsa voluptatum perspiciatis quaerat aut laborum qui odit! At, non, consequatur unde eaque dolor ipsum dolores nisi laudantium magnam commodi! Unde, distinctio dolorum ipsa nostrum culpa sequi perspiciatis eius optio! Architecto, nostrum, quae, facere, nisi ipsam vel laudantium nam velit aliquid necessitatibus eum exercitationem impedit obcaecati ea sequi delectus illum possimus molestiae dolorem enim corrupti ad harum. Eaque, debitis, omnis, dolorem, accusamus expedita totam earum suscipit rem assumenda hic dolores consequatur dolorum harum repudiandae tempore voluptates quasi eveniet nostrum. Eligendi quidem hic unde recusandae modi.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>$.Metro.initAll();</script>

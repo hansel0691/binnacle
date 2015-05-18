@@ -1,0 +1,68 @@
+﻿<article id="partial-body">
+    <h1>
+        <a href="" data-ng-click="goBack()"><i class="icon-arrow-left-3 fg-darker smaller"></i></a>
+        Posiciones<small class="on-right">{{auth.Employee.Role.Name}}</small>
+    </h1>
+    <div class="grid clear">
+        <div class="row">
+            <button class="hover success" data-ng-click="onFilterRoute()" style="display: inline-block;height: 32px;">
+                <i class="icon-filter" style="margin-right: 0;margin-left: 0"></i>
+            </button>
+            <select class="dropdown-list" style="float: none; display: inline-block; width: 250px;" data-ng-model="search.selectedSampler" data-ng-options="sampler.EmployeeId as sampler.FullName for sampler in visibleEmployees()"></select>
+            <select class="dropdown-list" style="float: none; display: inline-block; width: 250px; " data-ng-model="search.NotificationCategory">
+                <option value="0">Todas</option>
+                <option value="1">Estado del GPS</option>
+                <option value="2">SMS</option>
+                <option value="3">MMS</option>
+                <option value="4">Llamadas</option>
+                <option value="5">Apagado/Encendido</option>
+                <option value="6">Actualización de ISY SAMPLER</option>
+                <option value="7">Batería Baja</option>
+                <option value="8">ISY SAMPLER Detenido</option>
+                <option value="9">Paquete Instalado</option>
+                <option value="10">Perfil de Sonido</option>
+                <option value="11">Orden Enviada/Recibida</option>
+            </select>
+            <button class="btn-search fg-white hover" data-ng-click="filter()" style="height: 32px; background-color: #16499A;">
+                <i class="icon-search" style="margin: 0"></i>
+            </button>
+        </div>
+        <div class="row" style="margin-top: 0;">
+            <div class="span8 order-view">
+                <button class="right hover fg-white" style="height: 29px;margin-top: 11px; margin-right: 40px; background-color: #16499A" data-ng-click="clearNotifications()">
+                    <i class="icon-comments-4" style="margin-right: 15px;"></i>
+                    <i class="icon-cancel-2"></i>
+                </button>
+                <div>
+                    <h2 class="subheader" style="display: inline-block">Ubicación de Empleados</h2>
+                </div>
+                <section data-ng-controller="MapCtrl">
+                    <div id="map_canvas" style="width: 640px; height: 480px; background-color: #eee;"></div>
+                </section>
+            </div>
+            <div class="span4" style="min-height: 600px; width: 100%">
+                <h2 class="text-right subheader">
+                    Notificaciones
+                </h2>
+                <div class="text-center" style="margin-bottom: 5px; -moz-user-select: none; -webkit-user-select: none; user-select: none;">
+                    <span class="label info" style="cursor: pointer;" data-ng-click="getNotifications()" data-ng-if="newNotifications">Tiene {{newNotifications}} Notificaciones Nuevas</span>
+                </div>
+                <div style="height: 600px; overflow-y: auto; overflow-x: hidden;">
+                    <div class="notification" data-ng-click="toogleNotification(notify.NotificationId)" data-ng-class="{ok : notify.NOTIFICATION_CATEGORY == 0,bad : notify.NOTIFICATION_CATEGORY == 2, pointer : hasGpsData(notify.NotificationId)}" data-ng-repeat="notify in notifications" style="cursor: default; -moz-user-select: none; -webkit-user-select: none; user-select: none; margin-right: 5px;">
+                        <div class="notification-header"><span class="title subheader-secondary">{{getHeaderText(notify.NOTIFICATION_TYPE)}}</span> <span class="label info right" style="margin-top: 3px;" data-ng-if="!notify.Old">Nuevo!</span></div>
+                        <div class="notification-body">
+                            {{notify.NOTIFICATION_MSG}}
+                        </div>
+                        <div class="notification-footer">
+                            <span class="right">{{getDateTime(notify.DATETIME, '/')}}</span>
+                            <span>{{notify.SamplerName}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+<script>
+    $.Metro.initAll();
+</script>

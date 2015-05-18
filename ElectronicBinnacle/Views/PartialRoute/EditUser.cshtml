@@ -1,0 +1,121 @@
+﻿<article id="partial-body">
+    <h1>
+        <a href="" data-ng-click="goBack()"><i class="icon-arrow-left-3 fg-darker smaller"></i></a>
+        Editar Usuario<small class="on-right no-phone">{{auth.Employee.Role.Name}}</small>
+    </h1>
+    <section style="margin-left: 50px;">
+        <div class="ribbed-cyan fg-white accordion-heading">
+            <span data-ng-if="user.Employee.Role.RoleId != 5">Información del Usuario</span>
+            <span data-ng-if="user.Employee.Role.RoleId == 5">Información del Muestreador</span>
+        </div>
+        <form data-ng-submit="edit_user()">
+            <fieldset>
+                <div data-ng-show=" isRelatedData([3, 4, 5], false)">
+                    <label>IMEI</label>
+                    <div class="input-control text" data-role="input-control">
+                        <input placeholder="0000-0000-0000" type="text" data-ng-model="user.IMEI">
+                    </div>
+                </div>
+                <div data-ng-show="isRelatedData([1, 2, 3, 4], true)">
+                    <label>Nombre de Usuario</label>
+                    <div class="input-control text" data-role="input-control">
+                        <input placeholder="Escriba un nombre de usuario" type="text" data-ng-model="user.Name">
+                        <button type="button" class="btn-clear" tabindex="-1"></button>
+                    </div>
+                </div>
+                <div data-ng-show="isRelatedData([5], false)">
+                    <label>Identificador de Bitácora</label>
+                    <div class="input-control text" data-role="input-control">
+                        <input placeholder="Identificador de Bitácora" type="text" data-ng-model="user.BinnacleIdentifier">
+                        <button type="button" class="btn-clear" tabindex="-1"></button>
+                    </div>
+                </div>
+                <div data-ng-show="isRelatedData([5], false)">
+                    <label>Puesto</label>
+                    <div class="input-control text" data-role="input-control">
+                        <input placeholder="Puesto" type="text" data-ng-model="user.Job">
+                        <button type="button" class="btn-clear" tabindex="-1"></button>
+                    </div>
+                </div>
+                <div data-ng-show="isRelatedData([5], false)">
+                    <label>Categoría</label>
+                    <div class="input-control text" data-role="input-control">
+                        <input placeholder="Categoría" type="text" data-ng-model="user.Category">
+                        <button type="button" class="btn-clear" tabindex="-1"></button>
+                    </div>
+                </div>
+                <div data-ng-show="isRelatedData([5], false)">
+                    <label>Sucursal</label>
+                    <div class="input-control text" data-role="input-control">
+                        <input placeholder="Sucursal" type="text" data-ng-model="user.Subsidiary">
+                        <button type="button" class="btn-clear" tabindex="-1"></button>
+                    </div>
+                </div>
+                <div data-ng-show="hasPermission(27)">
+                    <label>Identificador de Muestreo</label>
+                    <div class="input-control text" data-role="input-control">
+                        <input placeholder="Identificador de Muestreo" type="text" data-ng-model="user.SamplingIdentifier">
+                        <button type="button" class="btn-clear" tabindex="-1"></button>
+                    </div>
+                </div>
+                <div data-ng-show="isRelatedData([1, 2, 3, 4], true)">
+                    <label for="">Contraseña:</label>
+                    <div class="input-control password" data-role="input-control">
+                        <input placeholder="escriba una contraseña" autocomplete="off" type="password" data-ng-model="password">
+                        <button type="button" class="btn-reveal" tabindex="-1"></button>
+                    </div>
+                </div>
+                <div data-ng-show="isRelatedData([1, 2, 3, 4], true)">
+                    <label>Repetir la contraseña</label>
+                    <div class="input-control password" data-role="input-control">
+                        <input placeholder="repita la contraseña" autocomplete="off" type="password" data-ng-model="repeat_password">
+                        <button type="button" class="btn-reveal" tabindex="-1"></button>
+                    </div>
+                </div>
+
+                <div data-ng-if="user.Employee.Role.RoleId != 1 && user.Employee.Role.RoleId != 2 && user.Employee.Role.RoleId != 5">
+                    <div class="ribbed-cyan fg-white accordion-heading">Empleados Subordinados</div>
+                    <table class="table bordered hovered">
+                        <thead>
+                            <tr>
+                                <th class="text-left" style="width: 20%">Nombre</th>
+                                <th class="text-left" style="width: 20%">Apellido</th>
+                                <th style="width: 20%">Nombre de Usuario</th>
+                                <th style="width: 20%">Role</th>
+                                <th style="width: 20%">Subordinar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="e in subordinates">
+                                <td class="text-left">{{e.employee.Name}}</td>
+                                <td class="text-left">{{e.employee.LastName}}</td>
+                                <td>
+                                    <span data-ng-if="e.employee.Role.RoleId != 5">{{e.employee.User.Name}}</span>
+                                    <span data-ng-if="e.employee.Role.RoleId == 5">-</span>
+                                </td>
+                                <td>{{e.employee.Role.Name}}</td>
+                                <td>
+                                    <div class="input-control checkbox text-left" style="margin-bottom: 0;">
+                                        <label style="margin: 0;">
+                                            <input type="checkbox" data-ng-model="e.isSub" />
+                                            <span class="check"></span>
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="margin-top: 10px;">
+                    <button id="accept" class="bg-darkBlue fg-white right size2 hover" type="submit" data-ng-disabled="isLoading()">
+                        <i class="icon-checkmark"></i>
+                        Aceptar...
+                    </button>
+                </div>
+            </fieldset>
+        </form>
+    </section>
+    <div class="clear"></div>
+</article>
+<script>$.Metro.initInputs();</script>

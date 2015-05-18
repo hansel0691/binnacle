@@ -1,0 +1,62 @@
+﻿<article id="partial-body">
+    <form id="filter" class="input-control text no-tablet-portrait" data-ng-submit="searchObj()">
+        <input type="text" data-ng-model="search.Name" data-autofocus="" placeholder="Buscar emplado" />
+        <button type="submit" class="btn-search"></button>
+    </form>
+    <h1>
+        <a href="" data-ng-click="goBack()"><i class="icon-arrow-left-3 fg-darker smaller"></i></a>
+        Empleados<small class="on-right">{{auth.Employee.Role.Name}}</small>
+    </h1>
+    <div class="input-control switch" data-role="input-control">
+        <label>
+            Empleados de Baja
+            <input type="checkbox" data-ng-model="search.DropDown" data-ng-click="seeToogleActive()" />
+            <span class="check" style="margin-left: 5px;"></span>
+        </label>
+    </div>
+    <button id="add-employee" class="ribbed-cyan fg-white" data-ng-click="create_employee()" data-ng-if="hasPermission(12)">
+        <i class="icon-plus-2"></i>
+        Crear Empleado
+    </button>
+    <div class="table-container">
+        <table class="table bordered hovered">
+            <thead>
+                <tr>
+                    <th class="text-left">Nombre(s)</th>
+                    <th class="text-left">Apellido(s)</th>
+                    <th class="text-center">Role</th>
+                    <th class="text-center">Usuario</th>
+                    <th class="text-center">Desde</th>
+                    <th class="text-center" style="width: 180px;" data-ng-if="hasPermission(13)">Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="employee in employees">
+                    <td class="text-left">{{employee.Name}}</td>
+                    <td class="text-left">{{employee.LastName}}</td>
+                    <td>{{employee.Role.Name}}</td>
+                    <td data-ng-switch data-on="employee.Role.RoleId == 5">
+                        <span data-ng-switch-when="false">{{employee.User.Name}}</span>
+                        <span data-ng-switch-when="true">-</span>
+                    </td>
+                    <td>{{parseDate(employee.RegisterDate)}}</td>
+                    <td data-ng-if="hasPermission(13)">
+                        <a href="#/edit/employee/{{employee.EmployeeId}}">Editar</a> |
+                        <a href="" data-ng-click="toogle_dropDown(employee.EmployeeId, $index)"><span data-ng-switch data-on="employee.DropDown"><span data-ng-switch-when="false">Dar de Baja</span><span data-ng-switch-when="true">Contratar</span></span></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="pagination" data-ng-hide="simplePagination.last <= 1">
+        <ul>
+            <li><a data-ng-click="goPage(simplePagination, 0)" href=""><i class="icon-first-2"></i></a></li>
+            <li><a data-ng-click="goPage(simplePagination, simplePagination.currentIndex - 1)" href=""><i class="icon-previous"></i></a></li>
+            <li data-ng-class="{active : $index == simplePagination.currentIndex}" data-ng-show="simplePagination.low <= $index && $index <= simplePagination.top" data-ng-repeat="index in simplePagination.pagination">
+                <a href="" data-ng-click="goPage(simplePagination, $index)">{{$index+1}}</a>
+            </li>
+            <li><a data-ng-click="goPage(simplePagination, simplePagination.currentIndex + 1)" href=""><i class="icon-next"></i></a></li>
+            <li><a href="" data-ng-click="goPage(simplePagination, simplePagination.last-1)"><i class="icon-last-2"></i></a></li>
+        </ul>
+    </div>
+</article>

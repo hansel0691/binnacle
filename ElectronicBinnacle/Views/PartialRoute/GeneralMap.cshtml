@@ -1,0 +1,36 @@
+﻿<article id="partial-body">
+    <h1>
+        <a href="" data-ng-click="goBack()"><i class="icon-arrow-left-3 fg-darker smaller"></i></a>
+        Rutas<small class="on-right">{{auth.Employee.Role.Name}}</small>
+    </h1>
+    <div class="row" style="display: block">
+        <button class="primary right hover" style="margin-top: 5px;" data-ng-click="searchObj()">
+            <i class="icon-search" style="margin-right: 0;margin-left: 0"></i>
+            Filtrar Rutas
+        </button>
+        <button class="hover success" style="height:34px;display: inline-block;" data-ng-click="onFilterRoute()">
+            <i class="icon-filter" style="margin-right: 0;margin-left: 0"></i>
+        </button>
+        <div class="input-control select" style="display: inline-block; width: 300px;">
+            <select style="float: none;height: 34px;" data-ng-model="search.SelectedEmployee" data-ng-options="employee.EmployeeId as employee.FullName for employee in employeeList"></select>
+        </div>
+        <div id="datepicker-section" class="input-control text" data-role="datepicker"
+             data-effect='fade'
+             data-format="d/m/yyyy"
+             data-locale='es'
+             style="width: 250px !important; display: inline-block;">
+            <input type="text" placeholder="dd/mm/aaaa" data-ng-model="search.Date" data-date-picker="" />
+            <button class="btn-date"></button>
+        </div>
+    </div>
+    <section data-ng-controller="MapCtrl" data-ng-class="{'full-screen' : fillScreen}">
+        <button class="hover bg-white" style="position: absolute; z-index: 80; left: 50%; margin-left: -18px; margin-top: 2px; width: 36px; padding: 5px;" data-ng-click="fullScreen()">
+            <i class="icon-fullscreen-alt" style="font-size: 20px; margin: 0" data-ng-hide="fillScreen"></i>
+            <i class="icon-fullscreen-exit-alt" style="font-size: 20px; margin: 0" data-ng-show="fillScreen"></i>
+        </button>
+        <div id="map_canvas" style="margin-bottom: 40px; height: 700px; background-color: #eee;"></div>
+    </section>
+</article>
+<script>
+    $.Metro.initAll();
+</script>

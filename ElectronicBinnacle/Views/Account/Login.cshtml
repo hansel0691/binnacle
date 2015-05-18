@@ -1,0 +1,26 @@
+﻿<article id="login">
+    <h1>Bienvenido a IsyLab</h1>
+    <i style="font-size: 160px; color: #009ade;background-color: #E3EAED;" class="icon-user-2"></i>
+    <div class="description">
+        Introduzca su nombre de usuario y contrase&ntilde;a para acceder al sitio.
+    </div>
+    <form data-ng-submit="login()">
+        <fieldset>
+            <div class="input-control text" style="margin-bottom:0;">
+                <input id="user" type="text" placeholder="Nombre de usuario" required="" data-ng-model="credentials.username" data-focus="">
+                <button class="btn-clear" tabindex="-1" type="button"></button>
+            </div>
+            <div class="input-control password" data-role="input-control">
+                <input id="pass" value="" placeholder="Contrase&ntilde;a" type="password" required="" data-ng-model="credentials.password">
+                <button type="button" class="btn-reveal" tabindex="-1"></button>
+            </div>
+            <button type="submit">Iniciar Sesión</button>
+            <div class="links">
+                <a id="password-forgot" href="#">
+                    Olvid&oacute; su contrase&ntilde;a?
+                </a>
+            </div>
+        </fieldset>
+    </form>
+</article>
+<script>$.Metro.initInputs();</script>

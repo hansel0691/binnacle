@@ -1,0 +1,66 @@
+﻿<article id="partial-body">
+    @*<div id="filter" class="input-control text no-tablet-portrait">
+            <input type="text" placeholder="Buscar Permiso" data-ng-model="search" />
+            <button class="btn-search"></button>
+        </div>*@
+    <h1>
+        <a href="" data-ng-click="goBack()"><i class="icon-arrow-left-3 fg-darker smaller"></i></a>
+        {{pageInfo.headerTitle}} Role<small class="on-right no-phone">{{auth.Employee.Role.Name}}</small>
+    </h1>
+    <div>
+        <div class="align-center grid">
+            <div class="row">
+                <div class="left" style="margin:5px 0 0 0">
+                    <label for="" class="left" style="margin:0 15px 0 0">Nombre del Role</label>
+                    <div class="input-control text size5 left" style="margin-top:-3px;" data-role="input-control">
+                        <input placeholder="Nombre del role" type="text" data-ng-model="role.Name">
+                        <button type="button" class="btn-clear" tabindex="-1"></button>
+                    </div>
+                </div>
+                <div class="right" style="margin:5px 0 0 0">
+                    <div class="input-control switch" ng-show="pageInfo.state" style="margin-right: 10px;" data-role="input-control">
+                        <label>
+                            <span class="">Estado Activo</span>
+                            <input checked="" type="checkbox" data-ng-model="role.Active">
+                            <span class="check"></span>
+                        </label>
+                    </div>
+                    <button id="add-permission" class="ribbed-green fg-white hover" data-ng-click="add_permisson()" data-ng-disabled="isLoading()">
+                        <i class="icon-plus-2"></i>
+                        Agregar Permiso
+                    </button>
+                    <button class="fg-white bg-darkBlue hover" data-ng-click="accept()" data-ng-disabled="isLoading()">
+                        <i class="icon-checkmark"></i>
+                        Aceptar...
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div id="roles-table">
+            <h2>Permisos Asociados al Role</h2>
+            <table class="table hovered bordered">
+                <thead>
+                    <tr>
+                        <th class="text-left">Permisos</th>
+                        <th class="text-center hcenter-row">Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="perm in role.Permissions | filter:search">
+                        <td class="text-left">{{getPermissionFromId(perm.Identifier)}}</td>
+                        <td class="text-center">
+                            <select data-ng-model="perm.Value">
+                                <option value="0">Ninguno</option>
+                                <option value="1">Asignado</option>
+                                <option value="2">Completo</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</article>
+<script>$.Metro.initInputs();</script>

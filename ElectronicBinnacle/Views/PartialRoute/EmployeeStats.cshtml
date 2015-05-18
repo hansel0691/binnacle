@@ -1,0 +1,52 @@
+﻿<article id="partial-body">
+    <h1>
+        <a href="" data-ng-click="goBack()"><i class="icon-arrow-left-3 fg-darker smaller"></i></a>
+        Estadísticas<small class="on-right">{{auth.Employee.Role.Name}}</small>
+    </h1>
+    <div class="grid clear">
+        <div class="row" style="margin: 0">
+            <h2 style="margin: 0">{{employee.FullName}}</h2>
+            <div class="row" style="margin: 0">
+                <div class="ribbed-cyan fg-white accordion-heading">Datos del Muestreador</div>
+                <table class="table bordered hovered">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Coordinador Asignado</th>
+                            <th class="text-center">Versión de la App</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{boos}}</td>
+                            <td>{{vertion}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row" style="margin: 0">
+                <div class="ribbed-cyan fg-white accordion-heading">&Oacute;rdenes de Trabajo Asignadas</div>
+                <table class="table bordered hovered">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Identificador de la &Oacute;rden</th>
+                            <th class="text-center">Fecha Final Planificada</th>
+                            <th class="text-center">Fecha de Realización</th>
+                            <th class="text-center">Diferencia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="order in orders">
+                            <td>{{order.Identifier}}</td>
+                            <td>{{getDateTime(order.EndTime)}}</td>
+                            <td>{{getDateTime(order.Finished)}}</td>
+                            <td data-ng-class="{green : order.Finished && ((order.Finished - order.EndTime) < 0), 'bg-lightRed-soft' : order.Finished && ((order.Finished - order.EndTime) > 0) }" style="background-color: rgba(27, 161, 226, 0.6);">{{dateDif(order)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</article>
+<script>
+    $.Metro.initAll();
+</script>

@@ -1,0 +1,136 @@
+﻿<section class="order-info row size12">
+    <div class="row">
+        <div class="right text-right" style="padding-top:6px;">
+            <span>Folio : <span class="blue">{{binnacle.bitacora2.folio}}</span></span>
+        </div>
+        <h2>
+            P&aacute;gina Registro Bit&aacute;cora
+            <a href="" style="color:#78AA1C;" data-ng-click="selectedTemplate.path = 'PartialRoute/svbinnacle1'"><i class="icon-arrow-left-5"></i></a>
+            <a href="" style="color:#999;"><i class="icon-arrow-right-5"></i></a>
+        </h2>
+    </div>
+    <div class="row mtop10">
+        <div class="accordion with-marker place-left" data-role="accordion" data-closeany="false" style="width:100%">
+            <div class="accordion-frame active">
+                <a class="heading ribbed-cyan fg-white" href="#">DATOS DE EMPRESA</a>
+                <div class="content row">
+                    <span class="right">Fecha : <span>{{getDate(binnacle.LastDate, '/')}}</span></span>
+                    <table class="question-answer">
+                        <tr>
+                            <td style="width: 145px;">Orden de Trabajo : </td>
+                            <td>{{order.SamplingData.Identifier}}</td>
+                        </tr>
+                        <tr>
+                            <td>Muestreo en Empresa : </td>
+                            <td>{{order.ClientData.SocialReason}}</td>
+                        </tr>
+                        <tr>
+                            <td>Punto de Muestreo : </td>
+                            <td>{{order.LocationData.Place}}</td>
+                        </tr>
+                        <tr>
+                            <td>Personal Auxiliar : </td>
+                            <td>{{binnacle.bitacora2.personalAuxiliar}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="accordion-frame active">
+                <a class="heading ribbed-cyan fg-white" href="#">DATOS PARTICULARES DE LA ACTIVIDAD REALIZADA</a>
+                <div class="content row">
+                    <table class="question-answer" style="margin-top:10px;">
+                        <tr>
+                            <td style="width: 165px;">Objetivo : </td>
+                            <td class="fg-dark">Realizar la toma de muestra de agua residual puntual de acuerdo a nuestros estándares de calidad y en apego a la NMX-AA-003-1980</td>
+                        </tr>
+                        <tr>
+                            <td>Alcance : </td>
+                            <td class="fg-dark">Elaborar un plan de muestreo de acuerdo a las necesidades del cliente y cubriendo los estándares de calidad internos y a lo solicitado por las autoridades ambientales, colectar las muestras de acuerdo al plan de muestreo, envasar las muestras en los recipientes adecuados preservarlas y conservarlas en frio para su traslado o envío al laboratorio, registrar las muestras en su cadena de custodia y observar los tiempos máximos de retención previo al análisis para asegurar la integridad de las mismas hasta su análisis,llenar los registros correspondientes a hoja de campo y bitacora para asegurar la trazabilidad de las muestras.</td>
+                        </tr>
+                        <tr>
+                            <td>Par&aacute;metros Muestreados : </td>
+                            <td>{{parametersList}}</td>
+                        </tr>
+                        <tr>
+                            <td>Equipo Utilizado : </td>
+                            <td>
+                                {{order.Sampler.User.CalibrationKit.Name}}
+                                <span style="margin-left: 15px;">Serie : <span>{{order.Sampler.User.CalibrationKit.Series}}</span></span>
+                                <span style="margin-left: 15px;">Modelo : <span>{{order.Sampler.User.CalibrationKit.Model}}</span></span>
+                            </td>
+                        </tr>
+                    </table>
+                    <div>
+                        <div id="navigation-tab" class="button-set" data-role="button-group" style="padding-top:20px;">
+                            <button class="active" data-ng-click="selectedTemplate.option_table = 1">Soluciones de Referencia</button>
+                            <button data-ng-click="selectedTemplate.option_table = 2">Calibración inicial</button>
+                            <button data-ng-click="selectedTemplate.option_table = 3">Calibración final</button>
+                        </div>
+                        <table class="table bordered hovered">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th data-ng-show="selectedTemplate.option_table == 1">Marca</th>
+                                    <th data-ng-show="selectedTemplate.option_table == 1">Lote</th>
+                                    <th data-ng-show="selectedTemplate.option_table == 1">Caducidad</th>
+                                    <th data-ng-show="selectedTemplate.option_table == 2 || selectedTemplate.option_table == 3">V.M</th>
+                                    <th data-ng-show="selectedTemplate.option_table == 2 || selectedTemplate.option_table == 3">TEMP &ordm;C</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-ng-show="calData.visible" data-ng-repeat="calData in calibrationData">
+                                    <td>{{calData.name}}</td>
+                                    <td data-ng-show="selectedTemplate.option_table == 1">{{calData.Marca}}</td>
+                                    <td data-ng-show="selectedTemplate.option_table == 1">{{calData.Lote}}</td>
+                                    <td data-ng-show="selectedTemplate.option_table == 1">{{calData.Caducidad}}</td>
+                                    <td data-ng-show="selectedTemplate.option_table == 2">{{calData.VM1}}</td>
+                                    <td data-ng-show="selectedTemplate.option_table == 2">{{calData.TEMP1}}</td>
+                                    <td data-ng-show="selectedTemplate.option_table == 3">{{calData.VM2}}</td>
+                                    <td data-ng-show="selectedTemplate.option_table == 3">{{calData.TEMP2}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="text-center"><label class="row header-title">Equipo de Protección Personal</label></div>
+                        <div class="row left" style="margin-left:20px;" data-ng-repeat="tool in protectionToolkit">
+                            <div class="input-control checkbox" data-role="input-control">
+                                <label>
+                                    <input type="checkbox" disabled="disabled" ng-checked="tool.value">
+                                    <span class="check"></span>
+                                    {{tool.name}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-frame active">
+                <a class="heading ribbed-cyan fg-white" href="#">DESARROLLO DEL MUESTREO</a>
+                <div class="content row answer-paragraph">
+                    {{binnacle.bitacora2.desarrolloMuestreo}}
+                </div>
+            </div>
+            <div class="accordion-frame active">
+                <a class="heading ribbed-cyan fg-white" href="#">Traslado de la Muestra al Laboratorio</a>
+                <div class="content row">
+                    <div class="row text-center">
+                        <span class="fg-darker">T&eacute;cnico : <span class="right-margin15">{{binnacle.bitacora2.trasladoMuestraLab.tecnico}}</span></span>
+                        <span class="fg-darker">Mensajer&iacute;a : <span class="right-margin15">{{binnacle.bitacora2.trasladoMuestraLab.mensajeria}}</span></span>
+                        <span class="fg-darker">N&uacute;mero de Gu&iacute;a : <span class="right-margin15">{{binnacle.bitacora2.trasladoMuestraLab.guiaNumero}}</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center" style="width: 245px; margin:20px auto;">
+        Muestreador
+        <div class="image-container shadow" style="height:100px">
+            <img src="data:image/png;base64,{{order.Sampler.Signature}}" alt="Firma" style="height:100px">
+            <div class="overlay-fluid">
+                {{order.Sampler.FullName}}
+            </div>
+        </div>
+    </div>
+</section>
+<script>$.Metro.initAll();</script>

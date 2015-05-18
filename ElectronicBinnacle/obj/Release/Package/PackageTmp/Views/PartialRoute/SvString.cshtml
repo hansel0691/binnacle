@@ -1,0 +1,259 @@
+﻿<section class="order-info row size12" data-ng-controller="SvStringCtrl">
+    <div class="row">
+        <div class="right" style="padding-top: 6px;">
+            <span>
+                Orden de Trabajo : <span class="blue">{{order.SamplingData.Identifier}}</span>
+            </span>
+        </div>
+        <h2>Cadena</h2>
+    </div>
+    <div class="row mtop10">
+        <div class="accordion with-marker place-left" data-role="accordion" data-closeany="false" style="width:100%">
+            <div class="accordion-frame active">
+                <a class="heading ribbed-cyan fg-white" href="#">Datos del Informe de Resultados</a>
+                <div class="content row">
+                    <div class="right">
+                        <table class="question-answer">
+                            <tr>
+                                <td>Del. &amp; Mpio. : </td>
+                                <td>{{order.BinnacleData.DelMpio}}</td>
+                            </tr>
+                            <tr>
+                                <td>Estado : </td>
+                                <td>{{order.BinnacleData.Edo}}</td>
+                            </tr>
+                            <tr>
+                                <td>CP : </td>
+                                <td>{{order.BinnacleData.CP}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <table class="question-answer w90">
+                        <tbody>
+                            <tr>
+                                <td>Raz&oacute;n Social : </td>
+                                <td>{{order.BinnacleData.SocialReason}}</td>
+                            </tr>
+                            <tr>
+                                <td>Calle &amp; No. : </td>
+                                <td>{{order.BinnacleData.StreetNo}}</td>
+                            </tr>
+                            <tr>
+                                <td><span>Colonia : </span></td>
+                                <td>{{order.BinnacleData.Colony}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="top-dashed" style="margin: 10px 0"></div>
+                    <table class="question-answer" style="width:100%">
+                        <tr>
+                            <td style="width:50%">Muestreador : </td>
+                            <td style="width:50%">{{order.Sampler.FullName}}</td>
+                        </tr>
+                        <tr>
+                            <td style="width:50%">Orden de Muestreo : </td>
+                            <td style="width:50%">{{sample_string.ordenMuestreoEditable}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="accordion-frame active">
+                <a class="heading ribbed-cyan fg-white" href="#">Datos de Facturaci&oacute;n</a>
+                <div class="content row">
+                    <table class="question-answer w90">
+                        <tr>
+                            <td>Raz&oacute;n Social : </td>
+                            <td>
+                                {{order.BillerClient.SocialReason}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Direcci&oacute;n : </td>
+                            <td>{{order.BillerClient.Address}}</td>
+                        </tr>
+                        <tr>
+                            <td>R.F.C. : </td>
+                            <td>{{order.BillerClient.RFC}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="accordion-frame active">
+                <a class="heading ribbed-cyan fg-white" href="#">An&aacute;lisis de Muestreo</a>
+                <div class="content row">
+                    <div style="overflow-x: auto;">
+                        <table class=" table bordered hovered" style="width:1200px">
+                            <thead>
+                                <tr>
+                                    <th>Identificaci&oacute;n de la Muestra</th>
+                                    <th>Fecha de Muestreo</th>
+                                    <th>Hora de Muestreo</th>
+                                    <th>Matriz</th>
+                                    <th>Cantidad Recibida</th>
+                                    <th>No. De Lab.</th>
+                                    <th data-ng-repeat="i in allParamsIdentifier">
+                                        {{i.identifier}}
+                                    </th>
+                                    <th>V</th>
+                                    <th>P</th>
+                                    <th>B</th>
+                                    <th>O</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-ng-repeat="sampleIdentifier in simpleSamplesIdentifiers">
+                                    <td>{{sampleIdentifier.muestraID}}</td>
+                                    <td>{{getDate(sampleIdentifier.fechaInicial, '/')}}</td>
+                                    <td>{{getTime(sampleIdentifier.hora)}}</td>
+                                    <td>{{getWatterKing(order.SamplingData.SamplingKind)}}</td>
+                                    <td style="padding: 0">
+                                        <div class="input-control text" data-role="input-control" style="">
+                                            <input class="text-center" type="number" data-ng-model="sampleIdentifier.ReceivedAmount" data-ng-blur="saveReceivedAmount(sampleIdentifier.idMuestra ,sampleIdentifier.SimpleSamplingIdentifierId, sampleIdentifier.ReceivedAmount, sampleIdentifier.tipoMuestra)">
+                                        </div>
+                                    </td>
+                                    <td style="padding: 0">
+                                        <div class="input-control text size1" data-role="input-control">
+                                            <input class="text-center" type="number" data-ng-model="sampleIdentifier.LabNo" data-ng-blur="saveLabNo(sampleIdentifier.idMuestra ,sampleIdentifier.SimpleSamplingIdentifierId, sampleIdentifier.LabNo, sampleIdentifier.tipoMuestra)">
+                                        </div>
+                                    </td>
+                                    <td data-ng-repeat="i in allParamsIdentifier" data-ng-switch data-on="check(sampleIdentifier, i)">
+                                        <i class="fg-lightGreen icon-checkmark" data-ng-switch-when="true"></i>
+                                        <i class="icon-cancel-2 fg-red" data-ng-switch-when="false"></i>
+                                        <i class="icon-minus-2" data-ng-switch-default=""></i>
+                                    </td>
+                                    <td>{{hideInteger(sampleIdentifier.numeroContenedores.V)}}</td>
+                                    <td>{{hideInteger(sampleIdentifier.numeroContenedores.P)}}</td>
+                                    <td>{{hideInteger(sampleIdentifier.numeroContenedores.B)}}</td>
+                                    <td>{{hideInteger(sampleIdentifier.numeroContenedores.O)}}</td>
+                                </tr>
+                                <tr data-ng-repeat="sampleIdentifier in complexSamplesIdentifiers">
+                                    <td>{{sampleIdentifier.muestraID}}</td>
+                                    <td>{{getDate(sampleIdentifier.fechaInicial, '/')}}</td>
+                                    <td>{{getTime(sampleIdentifier.hora)}}</td>
+                                    <td>{{getWatterKing(order.SamplingData.SamplingKind)}}</td>
+                                    <td style="padding: 0">
+                                        <div class="input-control text" data-role="input-control" style="" data-ng-hide="sampleIdentifier.opt">
+                                            <input class="text-center" type="number" data-ng-model="sampleIdentifier.ReceivedAmount" data-ng-blur="saveReceivedAmount(sampleIdentifier.idMuestra ,sampleIdentifier.SimpleSamplingIdentifierId, sampleIdentifier.ReceivedAmount, sampleIdentifier.tipoMuestra)">
+                                        </div>
+                                    </td>
+                                    <td style="padding: 0">
+                                        <div class="input-control text size1" data-role="input-control" data-ng-hide="sampleIdentifier.opt">
+                                            <input class="text-center" type="number" data-ng-model="sampleIdentifier.LabNo" data-ng-blur="saveLabNo(sampleIdentifier.idMuestra ,sampleIdentifier.SimpleSamplingIdentifierId, sampleIdentifier.LabNo, sampleIdentifier.tipoMuestra)">
+                                        </div>
+                                    </td>
+                                    <td data-ng-repeat="i in allParamsIdentifier">
+                                        <div data-ng-hide="sampleIdentifier.opt" data-ng-switch data-on="check(sampleIdentifier ,i)">
+                                            <i class="fg-lightGreen icon-checkmark" data-ng-switch-when="true"></i>
+                                            <i class="icon-cancel-2 fg-red" data-ng-switch-when="false"></i>
+                                            <i class="icon-minus-2" data-ng-switch-default=""></i>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div data-ng-hide="sampleIdentifier.opt">{{hideInteger(sampleIdentifier.numeroContenedores.V)}}</div>
+                                    </td>
+                                    <td>
+                                        <div data-ng-hide="sampleIdentifier.opt">{{hideInteger(sampleIdentifier.numeroContenedores.P)}}</div>
+                                    </td>
+                                    <td>
+                                        <div data-ng-hide="sampleIdentifier.opt">{{hideInteger(sampleIdentifier.numeroContenedores.B)}}</div>
+                                    </td>
+                                    <td>
+                                        <div data-ng-hide="sampleIdentifier.opt">{{hideInteger(sampleIdentifier.numeroContenedores.O)}}</div>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-frame active">
+                <a class="heading ribbed-cyan fg-white" href="#">Registro de la Custodia de las Muestras</a>
+                <div class="content row" style="text-align: justify;">
+                    <div class="row">
+                        <div class="delivery right">
+                            <p class="bg-lightOlive fg-white padding10">Recibe</p>
+                            <div class="right" style="margin-right:5px;">
+                                <div class="image-container shadow" style="height:100px">
+                                    <img src="data:image/png;base64,{{sample_string.recibe1.firma}}" style="height: 100px" alt="Firma">
+                                </div>
+                            </div>
+                            <table class="question-answer">
+                                <tr>
+                                    <td style="width: 80px;">Nombre : </td>
+                                    <td>{{sample_string.recibe1.nombre}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Fecha : </td>
+                                    <td>{{getDate(sample_string.recibe1.fechaHora, '/')}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Hora : </td>
+                                    <td>{{getTime(sample_string.recibe1.fechaHora)}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="delivery">
+                            <p class="bg-lightOlive fg-white padding10">Entrega</p>
+                            <div class="right" style="margin-right:5px;">
+                                <div class="image-container shadow" style="height:100px">
+                                    <img src="data:image/png;base64,{{sample_string.entrega1.firma}}" style="height: 100px" alt="Firma">
+                                </div>
+                            </div>
+                            <table class="question-answer">
+                                <tr>
+                                    <td style="width: 80px;">Nombre : </td>
+                                    <td>{{sample_string.entrega1.nombre}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Fecha : </td>
+                                    <td>{{getDate(sample_string.entrega1.fechaHora, '/')}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Hora : </td>
+                                    <td>{{getTime(sample_string.entrega1.fechaHora)}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-frame active">
+                <a class="heading ribbed-cyan fg-white" href="#">Firmas de Clientes</a>
+                <div class="content row text-center">
+                    <div class="text-center" style="display: inline-block;">
+                        {{sample_string.nombre}}
+                        <div class="image-container shadow" style="height:100px">
+                            <img src="data:image/png;base64,{{sample_string.firma}}" style="height: 100px" alt="Firma">
+                            <div class="overlay-fluid">
+                                {{sample_string.nombre}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center" style="display: inline-block; margin-left: 50px;" data-ng-show="sample_string.firma2">
+                        {{sample_string.nombre2}}
+                        <div class="image-container shadow" style="height:100px">
+                            <img src="data:image/png;base64,{{sample_string.firma2}}" style="height: 100px" alt="Firma">
+                            <div class="overlay-fluid">
+                                {{sample_string.nombre2}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center" style="display: inline-block; margin-left: 50px; " data-ng-show="sample_string.firma3">
+                        {{sample_string.nombre3}}
+                        <div class="image-container shadow" style="height:100px">
+                            <img src="data:image/png;base64,{{sample_string.firma3}}" style="height: 100px" alt="Firma">
+                            <div class="overlay-fluid">
+                                {{sample_string.nombre3}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<script>
+    $.Metro.initAll();
+</script>

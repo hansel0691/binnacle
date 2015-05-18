@@ -1,0 +1,278 @@
+﻿<section class="order-info row size12">
+    <div class="row">
+        <div class="right">
+            <button class="bg-lightRed fg-white hover" data-ng-click="see_croquis(selectedSample.idCroquis)">
+                <i class="icon-camera"></i>
+                Localización del Punto de Muestreo
+            </button>
+            <button class="bg-lightOlive fg-white hover" data-ng-click="seeGps(selectedSample.idCroquis)">
+                <i class="icon-location-3"></i>
+                Mapa
+            </button>
+        </div>
+        <h2>
+            Muestra Simple
+            <span data-ng-if="sampleInfo.ComplexCount">
+                <a href="" style="color:#999;"><i class="icon-arrow-left-5"></i></a>
+                <a href="" style="color:#78AA1C;" data-ng-click="seeComplex()"><i class="icon-arrow-right-5"></i></a>
+            </span>
+        </h2>
+    </div>
+    <div class="row mtop10">
+        <div class="accordion with-marker place-left" data-role="accordion" data-closeany="false" style="width:100%">
+            <div class="accordion-frame  active">
+                <a class="heading ribbed-cyan fg-white" href="#">Datos Generales Del Muestreo</a>
+                <div class="content row">
+                    <table class="question-answer right" style="margin-top:10px;">
+                        <tr>
+                            <td>Fecha Inicial : </td>
+                            <td>{{getDate(selectedSample.datosGeneralesMuestreo.fechaInicial, '/')}}</td>
+                        </tr>
+                        <tr>
+                            <td>Fecha Final : </td>
+                            <td>{{getDate(selectedSample.datosGeneralesMuestreo.fechaFinal, '/')}}</td>
+                        </tr>
+                        <tr>
+                            <td>Tipo de Agua : </td>
+                            <td>{{getWatterKing(order.SamplingData.SamplingKind)}}</td>
+                        </tr>
+                    </table>
+                    <table class="question-answer  w130" style="margin-top:10px;">
+                        <tr>
+                            <td>Orden de Trabajo : </td>
+                            <td>{{order.SamplingData.Identifier}}</td>
+                        </tr>
+                        <tr>
+                            <td>Empresa : </td>
+                            <td>{{order.ClientData.SocialReason}}</td>
+                        </tr>
+                        <tr>
+                            <td>Planta : </td>
+                            <td>{{order.LocationData.Place}}</td>
+                        </tr>
+                        <tr>
+                            <td>Direcci&oacute;n : </td>
+                            <td>{{order.LocationData.Address}}</td>
+                        </tr>
+                        <tr>
+                            <td>Responsable : </td>
+                            <td>{{order.Sampler.FullName}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="accordion-frame  active">
+                <a class="heading ribbed-cyan fg-white" href="#">Informaci&oacute;n de Control de Calidad</a>
+                <div class="content row">
+                    <div class="row">
+                        <div class="right">
+                            <span class="text-right" style="margin-right:10px;" data-ng-switch data-on="qality_control.correccionTemp">Corrección Temp : <span data-ng-switch-when="false">No</span><span data-ng-switch-when="true">Si</span></span><br>
+                            <span class="text-left" data-ng-if="qality_control.correccionTemp">Valor de la correcci&oacute;n : <span>{{hideInteger(qality_control.valorCorreccion)}}</span></span>
+                        </div>
+                        <span class="text-right">Equipo Utilizado : <span>{{order.Sampler.User.CalibrationKit.Name}}</span></span>
+                        <span class="text-right" style="margin-left: 10px;">Serie : <span>{{order.Sampler.User.CalibrationKit.Series}}</span></span>
+                        <span class="text-right" style="margin-left: 10px;">Modelo : <span>{{order.Sampler.User.CalibrationKit.Model}}</span></span>
+                    </div>
+                    <div class="clear row" style="padding-top:20px;">
+                        <div id="navigation-tab" class="button-set" data-role="button-group">
+                            <button class="active" data-ng-click="selectedTemplate.option_table = 1">Soluciones de Referencia</button>
+                            <button data-ng-click="selectedTemplate.option_table = 2">Calibración inicial</button>
+                            <button data-ng-click="selectedTemplate.option_table = 3">Calibración final</button>
+                        </div>
+                        <table class="table bordered hovered">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th data-ng-show="selectedTemplate.option_table == 1">Marca</th>
+                                    <th data-ng-show="selectedTemplate.option_table == 1">Lote</th>
+                                    <th data-ng-show="selectedTemplate.option_table == 1">Caducidad</th>
+                                    <th data-ng-show="selectedTemplate.option_table == 2 || selectedTemplate.option_table == 3">V.M</th>
+                                    <th data-ng-show="selectedTemplate.option_table == 2 || selectedTemplate.option_table == 3">TEMP &ordm;C</th>
+                                    <th data-ng-show="selectedTemplate.option_table == 2 || selectedTemplate.option_table == 3">V.B.</th>
+                                    <th data-ng-show="selectedTemplate.option_table == 2 || selectedTemplate.option_table == 3">Cumple</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-ng-show="calData.visible" data-ng-repeat="calData in calibrationData">
+                                    <td>{{calData.name}}</td>
+                                    <td data-ng-show="selectedTemplate.option_table == 1">{{calData.Marca}}</td>
+                                    <td data-ng-show="selectedTemplate.option_table == 1">{{calData.Lote}}</td>
+                                    <td data-ng-show="selectedTemplate.option_table == 1">{{calData.Caducidad}}</td>
+                                    <td data-ng-show="selectedTemplate.option_table == 2">{{calData.VM1}}</td>
+                                    <td data-ng-show="selectedTemplate.option_table == 2">{{calData.TEMP1}}</td>
+                                    <td data-ng-show="selectedTemplate.option_table == 2">{{calData.VB1}}</td>
+                                    <td data-ng-show="selectedTemplate.option_table == 2" data-ng-class="{red : !calData.Cumple1}">{{calData.CumpleVal1}}</td>
+                                    <td data-ng-show="selectedTemplate.option_table == 3">{{calData.VM2}}</td>
+                                    <td data-ng-show="selectedTemplate.option_table == 3">{{calData.TEMP2}}</td>
+                                    <td data-ng-show="selectedTemplate.option_table == 3">{{calData.VB2}}</td>
+                                    <td data-ng-show="selectedTemplate.option_table == 3" data-ng-class="{red : !calData.Cumple2}">{{calData.CumpleVal2}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-frame active">
+                <a class="heading ribbed-cyan fg-white" href="#">Resultados de Par&aacute;metros de Campo</a>
+                <div class="content row">
+                    <div class="clear row" style="padding-top:20px;">
+                        <div id="navigation-tab" class="button-set" data-role="button-group">
+                            <button class="active" data-ng-click="selectedTemplate.quality_option = 1">Temperatura (&deg;C)</button>
+                            <button data-ng-click="selectedTemplate.quality_option = 2">pH (UpH)</button>
+                            <button data-ng-click="selectedTemplate.quality_option = 3">Conductividad Eléctrica (&micro;ohms/cm)</button>
+                        </div>
+                        <table class="table bordered hovered switch-data">
+                            <thead>
+                                <tr>
+                                    <th style="vertical-align: middle;">Identificación de la muestra</th>
+                                    <th class="w70">Hora</th>
+                                    <th class="w70">1</th>
+                                    <th class="w70">2</th>
+                                    <th class="w70">3</th>
+                                    <th class="w70">Prom</th>
+                                    <th class="w70"> O<sub>2</sub> <span class="measurement-unit">(mg/L)</span></th>
+                                    <th class="w70">Cl<sub>2</sub> <span class="measurement-unit">(mg/L)</span></th>
+                                    <th class="w70">Materia Flotante</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-ng-repeat="sample in selectedSample.identificacionMuestraList">
+                                    <td>{{sample.muestraID}}</td>
+                                    <td>{{getTime(sample.hora)}}</td>
+                                    <td data-ng-show="selectedTemplate.quality_option == 1">{{hideInteger(sample.temperatura.valor0.toFixed(2))}}</td>
+                                    <td data-ng-show="selectedTemplate.quality_option == 1">{{hideInteger(sample.temperatura.valor1.toFixed(2))}}</td>
+                                    <td data-ng-show="selectedTemplate.quality_option == 1">{{hideInteger(sample.temperatura.valor2.toFixed(2))}}</td>
+                                    <td data-ng-show="selectedTemplate.quality_option == 1">{{hideInteger(average([sample.temperatura.valor0, sample.temperatura.valor1, sample.temperatura.valor2]))}}</td>
+                                    <td data-ng-show="selectedTemplate.quality_option == 2">{{hideInteger(sample.pH.valor0.toFixed(2))}}</td>
+                                    <td data-ng-show="selectedTemplate.quality_option == 2">{{hideInteger(sample.pH.valor1.toFixed(2))}}</td>
+                                    <td data-ng-show="selectedTemplate.quality_option == 2">{{hideInteger(sample.pH.valor2.toFixed(2))}}</td>
+                                    <td data-ng-show="selectedTemplate.quality_option == 2">{{hideInteger(average([sample.pH.valor0, sample.pH.valor1, sample.pH.valor2]))}}</td>
+                                    <td data-ng-show="selectedTemplate.quality_option == 3">{{hideInteger(sample.conductividadElectrica.valor0.toFixed(2))}}</td>
+                                    <td data-ng-show="selectedTemplate.quality_option == 3">{{hideInteger(sample.conductividadElectrica.valor1.toFixed(2))}}</td>
+                                    <td data-ng-show="selectedTemplate.quality_option == 3">{{hideInteger(sample.conductividadElectrica.valor2.toFixed(2))}}</td>
+                                    <td data-ng-show="selectedTemplate.quality_option == 3">{{hideInteger(average([sample.conductividadElectrica.valor0, sample.conductividadElectrica.valor1, sample.conductividadElectrica.valor2]))}}</td>
+                                    <td>{{hideInteger(sample.O2.toFixed(2))}}</td>
+                                    <td>{{hideInteger(sample.Cl2.toFixed(2))}}</td>
+                                    <td data-ng-switch data-on="sample.materiaFlotante"><span data-ng-switch-when="null">-</span><span data-ng-switch-when="false">Ausente</span><span data-ng-switch-when="true">Presente</span></td>
+                                    <td>
+                                        <a href="" data-ng-click="see_croquis(sample.idCroquis)"><i class="icon-camera fg-lightRed" style="font-size: 18px; margin-right: 10px"></i></a>
+                                        <a href="" data-ng-click="seeGps(sample.idCroquis)"><i class="icon-location-3 fg-lightOlive" style="font-size:18px;"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-frame active">
+                <a class="heading ribbed-cyan fg-white" href="#">Muestras de Control de Calidad</a>
+                <div class="content row" style="text-align: justify;">
+                    <table class="question-answer right w200" style="margin-top:10px;">
+                        <tr>
+                            <td>ID Bco. de Equipo : </td>
+                            <td>{{selectedSample.muestrasControlCalidad.IDBcoDeEquipo}}</td>
+                        </tr>
+                        <tr>
+                            <td>Muestras Duplicadas : </td>
+                            <td>{{selectedSample.muestrasControlCalidad.muestrasDuplicadas}}</td>
+                        </tr>
+                        <tr>
+                            <td>ID. Muestras de Resguardo : </td>
+                            <td>{{selectedSample.muestrasControlCalidad.IDMuestrasResguardo}}</td>
+                        </tr>
+                    </table>
+                    <table class="question-answer" style="margin-top:10px;">
+                        <tr>
+                            <td>ID Bco. de Viaje : </td>
+                            <td>{{selectedSample.muestrasControlCalidad.IDBcoDeViaje}}</td>
+                        </tr>
+                        <tr>
+                            <td>ID Bco. de Campo : </td>
+                            <td>{{selectedSample.muestrasControlCalidad.IDBcoDeCampo}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="accordion-frame active">
+                <a class="heading ribbed-cyan fg-white" href="#">Observaciones</a>
+                <div class="content row answer-paragraph">
+                    {{selectedSample.observaciones}}
+                </div>
+            </div>
+            <div class="accordion-frame active" data-ng-if="order.SamplingData.SamplingKind == 3">
+                <a class="heading ribbed-cyan fg-white" href="#">C&aacute;lculo de Vol&uacute;menes en el Pozo</a>
+                <div class="content row" style="text-align: justify;">
+                    <div class="row text-center" data-ng-switch data-on="selectedSample.pozoAS.utiliza"><span data-ng-switch-when="true" style="color: #60A917;">Utiliza Método de Medición: Pozos AS</span><span data-ng-switch-when="false" style="color: #E51400;">No Utiliza Método de Medición Pozos AS</span></div>
+                    <table class="table bordered hovered" style="margin-top:10px;">
+                        <thead>
+                            <tr>
+                                <th>Volúmen del Tubo</th>
+                                <th>Volúmen del Filtro</th>
+                                <th>Volumen de agua en el Pozo</th>
+                                <th>Volumen a Extraer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{hideInteger(selectedSample.pozoAS.volumenTubo)}}</td>
+                                <td>{{hideInteger(selectedSample.pozoAS.volumenFiltro)}}</td>
+                                <td>{{watterVolume()}}</td>
+                                <td>{{extractVolume()}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="accordion-frame active">
+                <a class="heading ribbed-cyan fg-white" href="#">Par&aacute;metros</a>
+                <div class="content row" style="text-align: justify;">
+                    <table class="table bordered hovered">
+                        <thead>
+                            <tr>
+                                <th>Identificador</th>
+                                <th>Recipiente</th>
+                                <th>Preservador</th>
+                                <th>Llave</th>
+                                <th style="width: 90px;">Volumen</th>
+                                <th style="width: 90px;">TMPA</th>
+                                <th style="width: 90px;">De Campo</th>
+                                <th style="width: 90px;">Verificaci&oacute;n</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="param in params">
+                                <td>{{param.Parameter.Identifier}}</td>
+                                <td>{{param.Parameter.Container}}</td>
+                                <td>{{param.Parameter.Preserver}}</td>
+                                <td>{{param.Parameter.Key}}</td>
+                                <td style="width: 90px;">{{param.Parameter.Volume}}</td>
+                                <td style="width: 90px;">{{param.Parameter.TMPA}}</td>
+                                <td style="width: 90px;">
+                                    <i class="fg-lightGreen icon-checkmark" data-ng-if="param.Parameter.FieldMeasurement"></i>
+                                    <i class="icon-cancel-2" data-ng-if="!param.Parameter.FieldMeasurement"></i>
+                                </td>
+                                <td style="width: 90px;">
+                                    <i class="fg-lightGreen icon-checkmark" data-ng-if="param.Verified"></i>
+                                    <i class="icon-cancel-2 fg-red" data-ng-if="param.Verified == false"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pagination">
+        <ul>
+            <li><a data-ng-click="goPage(simplePagination, 0)" href=""><i class="icon-first-2"></i></a></li>
+            <li><a data-ng-click="goPage(simplePagination, simplePagination.currentIndex - 1)" href=""><i class="icon-previous"></i></a></li>
+            <li data-ng-class="{active : $index == simplePagination.currentIndex}" data-ng-show="simplePagination.low <= $index && $index <= simplePagination.top" data-ng-repeat="index in simplePagination.pagination">
+                <a href="" data-ng-click="goPage(simplePagination, $index)">{{$index+1}}</a>
+            </li>
+            <li><a data-ng-click="goPage(simplePagination, simplePagination.currentIndex + 1)" href=""><i class="icon-next"></i></a></li>
+            <li><a href="" data-ng-click="goPage(simplePagination, simplePagination.last-1)"><i class="icon-last-2"></i></a></li>
+        </ul>
+    </div>
+</section>
+<script>$.Metro.initAll();</script> 

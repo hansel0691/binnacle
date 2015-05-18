@@ -1,0 +1,106 @@
+﻿<section class="order-info row size12">
+    <div class="row">
+        <div class="right">
+            <button class="bg-lightRed fg-white hover" data-ng-click="see_croquis(sample_plan.idCroquis)">
+                <i class="icon-camera"></i>
+                Ver Croquis
+            </button>
+            <button class="bg-lightOlive fg-white hover" data-ng-click="seeGps(sample_plan.idCroquis)">
+                <i class="icon-location-3"></i>
+                Mapa
+            </button>
+        </div>
+        <h2>Plan de Muestreo</h2>
+    </div>
+    <div class="row mtop10">
+        <div class="accordion with-marker place-left" data-role="accordion" data-closeany="false" style="width:100%">
+            <div class="accordion-frame active">
+                <a class="heading ribbed-cyan fg-white" href="#">Datos Generales</a>
+                <div class="content row">
+                    <span class="right">Fecha : <span>{{getDate(sample_plan.datosGenerales.fecha, '/')}}</span></span>
+                    <table class="question-answer w130">
+                        <tr>
+                            <td>Orden de Trabajo : </td>
+                            <td>{{order.SamplingData.Identifier}}</td>
+                        </tr>
+                        <tr>
+                            <td>Empresa : </td>
+                            <td>{{order.ClientData.SocialReason}}</td>
+                        </tr>
+                        <tr>
+                            <td>Planta : </td>
+                            <td>{{order.LocationData.Place}}</td>
+                        </tr>
+                        <tr>
+                            <td>Direcci&oacute;n : </td>
+                            <td>{{order.LocationData.Address}}</td>
+                        </tr>
+                        <tr>
+                            <td>Responsable : </td>
+                            <td>{{order.Sampler.FullName}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="accordion-frame active">
+                <a class="heading ribbed-cyan fg-white" href="#">Condiciones Particulares</a>
+                <div class="content row" style="padding-left:30px">
+                    <div class="text-center"><label class="row header-title">Sitio de Muestreo</label></div>
+                    <div class="text-center">
+                            <div class="input-control checkbox" data-role="input-control" style="margin-left: 20px;" data-ng-repeat="type in siteTypes" data-ng-show="type.visible">
+                            <label>
+                                <input type="checkbox" disabled="disabled" ng-checked="type.value">
+                                <span class="check text-left"></span>
+                                {{type.name}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-frame  active">
+                <a class="heading ribbed-cyan fg-white" href="#">Características del proceso que genera la descarga y Normatividad Aplicable</a>
+                <div class="content row">
+                    <div class="row">
+                        <table class="question-answer" data-ng-if="order.SamplingData.SamplingKind == 1">
+                            <tr>
+                                <td style="width:238px;">Flujo de Descarga : </td>
+                                <td data-ng-switch data-on="sample_plan.flujoDescarga"><span class="fg-darkCyan" data-ng-switch-when="0">Continuo</span><span class="fg-darkCyan" data-ng-switch-when="1">Intermitente</span></td>
+                            </tr>
+                            <tr>
+                                <td>La Descarga es Dirigida a : </td>
+                                <td data-ng-switch data-on="sample_plan.descargaDirigida">
+                                    <span class="fg-darkCyan" data-ng-switch-when="0">Drenaje</span>
+                                    <span class="fg-darkCyan" data-ng-switch-when="1">Cuerpo Rec</span>
+                                    <span class="fg-darkCyan" data-ng-switch-when="2">Cuerpo Riego</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Tiempo de Operación de la Descarga : </td>
+                                <td><span style="margin-right: 10px">Hora/Día : <span>{{sample_plan.horasDiaTiempoOperacionDescarga}}</span></span><span>Día/Semana : <span>{{sample_plan.diasSemanaTiempoOperacionDescarga}}</span></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="text-center"><label class="row header-title">Equipo de Protección Personal</label></div>
+                        <div class="text-center">
+                            <div class="input-control checkbox" data-role="input-control" style="margin-left:20px;" data-ng-repeat="tool in protectionToolkit">
+                                <label>
+                                    <input type="checkbox" disabled="disabled" ng-checked="tool.value">
+                                    <span class="check text-left"></span>
+                                    {{tool.name}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-frame  active">
+                <a class="heading ribbed-cyan fg-white" href="#">Estrategia Particular de Muestreo</a>
+                <div class="content row answer-paragraph">
+                    {{sample_plan.estrategiaMuestreo}}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>$.Metro.initAll();</script>

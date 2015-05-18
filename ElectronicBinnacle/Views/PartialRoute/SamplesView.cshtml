@@ -1,0 +1,25 @@
+﻿<article id="partial-body">
+    <h1>
+        <a href="" data-ng-click="goBack()"><i class="icon-arrow-left-3 fg-darker smaller"></i></a>
+        Información de Muestreo<small class="on-right no-phone"> {{auth.Employee.Role.Name}}</small>
+    </h1>
+    <div class="grid">
+        <div data-ng-include="selectedTemplate.path" style="min-height: 450px;"></div>
+        <div id="section-stepper" class="stepper diamond clear" data-steps="5" data-role="stepper" data-start="1"></div>
+        <div style="margin-bottom: 70px !important;">
+            <button href="#" class="left bg-green fg-white hover" data-ng-disabled="selectedTemplate.pageIndex == 1" data-ng-click="go_previous()"><i class="icon-arrow-left"></i> Anterior</button>
+            <button href="#" class="right fg-white bg-cyan hover" data-ng-disabled="selectedTemplate.pageIndex == 5" data-ng-click="go_next()">Siguiente<i class="icon-arrow-right" style="margin-left: 7px; margin-right: 0px;"></i></button>
+        </div>
+    </div>
+    <div class="exterior-option" style="right: 25px; bottom: 50px;" data-ng-click="generationBttmMsg = !generationBttmMsg;" data-ng-show="selectedTemplate.pageIndex < 5">
+        <i class="icon-printer"></i>
+    </div>
+    <div class="notice marker-on-right fg-white report-notice shadow" style="position: fixed !important;right: 85px;bottom: 45px;" data-ng-show="generationBttmMsg">
+        <a href="" data-ng-click="reportGeneration(0)">Generar Excel</a> |
+        <a href="" data-ng-click="reportGeneration(1)">Generar PDF</a>
+    </div>
+</article>
+<script>
+    $.Metro.initAll();
+    $('#section-stepper ul li').attr('data-ng-click', function (index) { return 'jumpMany(' + (index+1) + ')'; });
+</script>

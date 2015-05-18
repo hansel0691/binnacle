@@ -1,0 +1,40 @@
+﻿<article id="partial-body">
+    <form id="filter" class="input-control text no-tablet-portrait" data-ng-submit="searchOj()">
+        <input type="text" data-ng-model="search.Name" data-autofocus="" placeholder="Buscar usuario" />
+        <button type="submit" class="btn-search"></button>
+    </form>
+    <h1>
+        <a href="" data-ng-click="goBack()"><i class="icon-arrow-left-3 fg-darker smaller"></i></a>
+        Usuarios<small class="on-right">{{auth.Employee.Role.Name}}</small>
+    </h1>
+    <table id="users-table" class="table bordered hovered">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Estado</th>
+                <th>Role</th>
+                <th data-ng-if="hasPermission(3)">Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-ng-repeat="user in users | orderBy:'Name'">
+                <td>{{user.Name}}</td>
+                <td><span data-ng-switch data-on="user.Employee.DropDown"><span data-ng-switch-when="false">Activo</span><span data-ng-switch-when="true">Dado de Baja</span></span></td>
+                <td>{{user.Employee.Role.Name}}</td>
+                <td data-ng-if="hasPermission(3)"><a href="#/edit/user/{{user.UserId}}">Editar</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination" data-ng-hide="simplePagination.last <= 1">
+        <ul>
+            <li><a data-ng-click="goPage(simplePagination, 0)" href=""><i class="icon-first-2"></i></a></li>
+            <li><a data-ng-click="goPage(simplePagination, simplePagination.currentIndex - 1)" href=""><i class="icon-previous"></i></a></li>
+            <li data-ng-class="{active : $index == simplePagination.currentIndex}" data-ng-show="simplePagination.low <= $index && $index <= simplePagination.top" data-ng-repeat="index in simplePagination.pagination">
+                <a href="" data-ng-click="goPage(simplePagination, $index)">{{$index+1}}</a>
+            </li>
+            <li><a data-ng-click="goPage(simplePagination, simplePagination.currentIndex + 1)" href=""><i class="icon-next"></i></a></li>
+            <li><a href="" data-ng-click="goPage(simplePagination, simplePagination.last-1)"><i class="icon-last-2"></i></a></li>
+        </ul>
+    </div>
+</article>

@@ -1,0 +1,136 @@
+﻿<section class="order-info row size12">
+    <div class="row">
+        <div id="filter-packages" class="input-control text no-tablet-portrait" style="margin-top:0;">
+            <input type="text" data-autofocus="" data-ng-model="search.name" placeholder="Filtrar Muestreadores" />
+            <button class="btn-search"></button>
+        </div>
+        <div class="span6" style="margin-left: 0; margin-top: 2px;"><h2>Fase Final</h2></div>
+    </div>
+    <div class="row" style="margin-bottom: 20px;">
+        <div class="ribbed-blue fg-white accordion-heading">Tiempo de Alerta</div>
+        <div>
+            <div id="timer-picker-select">
+                <label>Antelaci&oacute;n para Avisar al Muestreador :</label>
+            </div>
+            <table class="time-picker left">
+                <tbody>
+                    <tr>
+                        <td><a href="" data-ng-click="increaseHour(orderInfo.alarmTime)"><i class="icon-arrow-up-5"></i></a></td>
+                        <td><a href="" data-ng-click="increaseMinute(orderInfo.alarmTime)"><i class="icon-arrow-up-5"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-control text">
+                                <input type="text" placeholder="hh" maxlength="2" data-ng-model="orderInfo.alarmTime.hour" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-control text">
+                                <input type="text" placeholder="mm" maxlength="2" data-ng-model="orderInfo.alarmTime.minute" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href=""><i class="icon-arrow-down-5" data-ng-click="decreaseHour(orderInfo.alarmTime)"></i></a></td>
+                        <td><a href=""><i class="icon-arrow-down-5" data-ng-click="decreaseMinute(orderInfo.alarmTime)"></i></a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <span id="timer-picker-select">
+                <label>hora(s)/minuto(s)</label>
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="ribbed-blue fg-white accordion-heading">Datos de Bit&aacute;cora</div>
+        <div class="grid">
+            <div class="row">
+                <label style="display: inline; margin-right: 10px; ">El Informe se Dirige a : </label>
+                <select class="dropdown-list" data-ng-model="orderInfo.binnacleDataSelected" style="width: 220px; margin-top: 1px; border: 1px #d9d9d9 solid;">
+                    <option value="0">Cliente</option>
+                    <option value="1" data-ng-show="!order.ClientData.BillReport">Cliente a Facturar</option>
+                    <option value="2">Sitio de Muestreo</option>
+                    <option value="3">Otro</option>
+                </select>
+            </div>
+            <div class="row" data-ng-show="orderInfo.binnacleDataSelected == 3">
+                <div class="row" style="margin-top: 5px !important">
+                    <div class="span12">
+                        <label>Razón Social</label>
+                        <div class="input-control text" data-role="input-control">
+                            <input placeholder="Razón Social de la nueva orden de trabajo" type="text" data-ng-model="order.BinnacleData.SocialReason">
+                            <button type="button" class="btn-clear" tabindex="-1"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span6">
+                        <label>Calle &amp; N&uacute;mero</label>
+                        <div class="input-control text size6" data-role="input-control">
+                            <input placeholder="Calle/No." type="text" data-ng-model="order.BinnacleData.StreetNo">
+                            <button type="button" class="btn-clear" tabindex="-1"></button>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <label>Colonia</label>
+                        <div class="input-control text size6" data-role="input-control">
+                            <input placeholder="Colonia" type="text" data-ng-model="order.BinnacleData.Colony">
+                            <button type="button" class="btn-clear" tabindex="-1"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span6">
+                        <label>Del./Mpio</label>
+                        <div class="input-control text size6" data-role="input-control">
+                            <input placeholder="Delegación o Municipio" type="text" data-ng-model="order.BinnacleData.DelMpio">
+                            <button type="button" class="btn-clear" tabindex="-1"></button>
+                        </div>
+                    </div>
+                    <div class="span3">
+                        <label>Edo.</label>
+                        <div class="input-control text size3" data-role="input-control">
+                            <input placeholder="Estado" type="text" data-ng-model="order.BinnacleData.Edo">
+                            <button type="button" class="btn-clear" tabindex="-1"></button>
+                        </div>
+                    </div>
+                    <div class="span3">
+                        <label>C.P.</label>
+                        <div class="input-control text size3" data-role="input-control">
+                            <input placeholder="C.P." type="text" data-ng-model="order.BinnacleData.CP">
+                            <button type="button" class="btn-clear" tabindex="-1"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="ribbed-blue fg-white accordion-heading">Asignar Orden de Trabajo a</div>
+        <div>
+            <table class="table bordered hovered">
+                <thead>
+                    <tr>
+                        <th class="text-left">Muestreador</th>
+                        <th style="width: 100px">Acci&oacute;n</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="sampler in samplers | filter : search.name">
+                        <td class="text-left ng-binding">{{sampler.name}}</td>
+                        <td>
+                            <div class="input-control span2 radio default-style" data-role="input-control" style="margin-bottom: 0px;">
+                                <label style="margin: 0">
+                                    <input type="radio" name="sampler" data-ng-model="$parent.orderInfo.selectedSamplerIndex" value="{{sampler.index}}" />
+                                    <span class="check"></span>
+                                    Asignado
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<script>$.Metro.initAll();</script>
